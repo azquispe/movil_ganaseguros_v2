@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:movil_ganaseguros/models/request_poliza_model.dart';
-import 'package:movil_ganaseguros/models/solicitud_seguro_model.dart';
+import 'package:movil_ganaseguros/polizas/models/request_poliza_model.dart';
+import 'package:movil_ganaseguros/solicitar_seguro/models/solicitud_seguro_model.dart';
 import 'package:movil_ganaseguros/utils/file_process.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +26,8 @@ class ConsultaPolizasService {
             'nroDocumento': pRequestPolizaModel.nroDocumento != null
                 ? pRequestPolizaModel.nroDocumento.toString()
                 : "",
-            'extension': pRequestPolizaModel.extension != null
-                ? pRequestPolizaModel.extension.toString()
+            'extension': pRequestPolizaModel.ciudadExpedido != null
+                ? pRequestPolizaModel.ciudadExpedido.toString()
                 : "",
             'complemento': pRequestPolizaModel.complemento != null
                 ? pRequestPolizaModel.complemento.toString()
@@ -55,42 +55,7 @@ class ConsultaPolizasService {
     return [];
   }
 
-  Future<bool> enviarSolicitudSeguro(
-      SolicitudSeguroModel solicitudSeguroModel) async {
-    const url = "${api.API_MOVIL_GANASEGURO}/app-web/v1/solicitud-seguro";
 
-    final response = await http
-        .post(
-          Uri.parse(url),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, String>{
-            'nombres': solicitudSeguroModel.nombres != null? solicitudSeguroModel.nombres.toString(): "",
-            'apellidos': solicitudSeguroModel.apellidos != null? solicitudSeguroModel.apellidos.toString(): "",
-            'telefonoCelular': solicitudSeguroModel.telefonoCelular != null? solicitudSeguroModel.telefonoCelular.toString(): "",
-            'correo': solicitudSeguroModel.correo != null? solicitudSeguroModel.correo.toString(): "",
-            'ciudad': solicitudSeguroModel.ciudad != null? solicitudSeguroModel.ciudad.toString(): "",
-            'tieneSeguroConNosotros': solicitudSeguroModel.tieneSeguroConNosotros != null? solicitudSeguroModel.tieneSeguroConNosotros.toString(): "",
-            'tieneSeguroConOtros': solicitudSeguroModel.tieneSeguroConOtros != null? solicitudSeguroModel.tieneSeguroConOtros.toString(): "",
-            'tipoSeguroInteresado': solicitudSeguroModel.tipoSeguroInteresado != null? solicitudSeguroModel.tipoSeguroInteresado.toString(): "",
-            "tipoMedioSolicitudSeguro":'1003'
-          }),
-        )
-        .timeout(Duration(seconds: api.TIMEOUT_SECOND));
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> decodeData = json.decode(response.body) as Map<String, dynamic>;
-
-      if (decodeData['codigoMensaje'].toString() == 'CODMW1000') {
-        return true;
-
-      } else {
-        return false;
-      }
-    }else{
-      return false;
-    }
-  }
 
   Future<String?> descargarPoliza(String pPolicyId) async {
 

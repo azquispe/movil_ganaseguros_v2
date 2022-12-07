@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:app_movil_ganaseguros/models/datos_persona_model.dart';
+import 'package:movil_ganaseguros/polizas/models/datos_persona_model.dart';
 //import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';

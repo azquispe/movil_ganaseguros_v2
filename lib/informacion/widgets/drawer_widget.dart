@@ -58,6 +58,15 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: Icon(Icons.notification_important),
+            iconColor: colores.pri_verde_claro,
+            title: Text('Avisos',style: Theme.of(context).textTheme.bodyText1,),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, 'avisos');
+            },
+          ),
+          ListTile(
             leading: Icon(Icons.map_outlined),
             iconColor: colores.pri_verde_claro,
             title: Text('Encuentranos',style: Theme.of(context).textTheme.bodyText1,),

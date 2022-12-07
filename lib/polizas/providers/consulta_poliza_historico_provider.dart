@@ -1,7 +1,7 @@
 import 'package:movil_ganaseguros/bd/db_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:movil_ganaseguros/polizas/models/datos_persona_model.dart';
 
-import '../models/datos_persona_model.dart';
 
 class ConsultaPolizaHistoricoProvider with ChangeNotifier {
 

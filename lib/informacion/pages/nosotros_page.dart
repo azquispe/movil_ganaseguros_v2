@@ -1,5 +1,5 @@
 import 'package:movil_ganaseguros/utils/estilos.dart';
-import 'package:movil_ganaseguros/widgets/custom_bottom_navigator_widget.dart';
+import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:flutter/material.dart';
 
 

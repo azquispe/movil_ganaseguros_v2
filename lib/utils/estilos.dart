@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app_movil_ganaseguros/utils/colores.dart' as colores;
-import 'package:app_movil_ganaseguros/utils/constantes.dart' as constantes;
+import 'package:movil_ganaseguros/utils/colores.dart' as colores;
+import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
 
 class Estilos {
   static TextStyle stlTextoTitulo(Color pColor) {

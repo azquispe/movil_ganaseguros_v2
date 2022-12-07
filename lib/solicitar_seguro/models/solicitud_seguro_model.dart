@@ -2,7 +2,7 @@
 //
 //     final solicitudSeguroModel = solicitudSeguroModelFromMap(jsonString);
 
-import 'package:meta/meta.dart';
+
 import 'dart:convert';
 
 class SolicitudSeguroModel {
@@ -14,7 +14,8 @@ class SolicitudSeguroModel {
     required this.ciudad,
     required this.tieneSeguroConNosotros,
     required this.tieneSeguroConOtros,
-    required this.tipoSeguroInteresado,
+    required this.tipoProductoId,
+    required this.descripcion
   });
 
   String nombres;
@@ -24,7 +25,10 @@ class SolicitudSeguroModel {
   String ciudad;
   bool tieneSeguroConNosotros;
   bool tieneSeguroConOtros;
-  String tipoSeguroInteresado;
+  int tipoProductoId;
+  String descripcion;
+
+
 
   factory SolicitudSeguroModel.fromJson(String str) => SolicitudSeguroModel.fromMap(json.decode(str));
 
@@ -38,7 +42,8 @@ class SolicitudSeguroModel {
     ciudad: json["ciudad"] == null ? null : json["ciudad"],
     tieneSeguroConNosotros: json["tieneSeguroConNosotros"] == null ? null : json["tieneSeguroConNosotros"],
     tieneSeguroConOtros: json["tieneSeguroConOtros"] == null ? null : json["tieneSeguroConOtros"],
-    tipoSeguroInteresado: json["tipoSeguroInteresado"] == null ? null : json["tipoSeguroInteresado"],
+    tipoProductoId: json["tipoProductoId"] == null ? null : json["tipoProductoId"],
+    descripcion: json["descripcion"] == null ? null : json["descripcion"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -49,7 +54,8 @@ class SolicitudSeguroModel {
     "ciudad": ciudad == null ? null : ciudad,
     "tieneSeguroConNosotros": tieneSeguroConNosotros == null ? null : tieneSeguroConNosotros,
     "tieneSeguroConOtros": tieneSeguroConOtros == null ? null : tieneSeguroConOtros,
-    "tipoSeguroInteresado": tipoSeguroInteresado == null ? null : tipoSeguroInteresado,
+    "tipoProductoId": tipoProductoId == null ? null : tipoProductoId,
+    "descripcion": descripcion == null ? null : descripcion,
   };
 }
 

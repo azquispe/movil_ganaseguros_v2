@@ -1,21 +1,17 @@
-import 'package:movil_ganaseguros/providers/consulta_poliza_provider.dart';
-import 'package:movil_ganaseguros/utils/estilos.dart';
-import 'package:movil_ganaseguros/widgets/custom_bottom_navigator_widget.dart';
-
+import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:movil_ganaseguros/informacion/widgets/slide_show_widget.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
-import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
-import 'package:provider/provider.dart';
-
 import '../widgets/card_inicio_widget.dart';
 import '../widgets/drawer_widget.dart';
-import '../widgets/slide_show_widget.dart';
+import 'package:badges/badges.dart';
 
 class InicioPage extends StatelessWidget {
+
+  final contadorNotificacion = 0;
+
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: colores.pri_blanco,
       appBar: AppBar(
@@ -24,21 +20,13 @@ class InicioPage extends StatelessWidget {
         elevation: 0,
         title: Container(
           alignment: Alignment.center,
-          child:  Image(
+          child: Image(
               width: 200,
               height: 50,
-              image:  AssetImage('assets/img/logo_ganaseguros_400.png')),
+              image: AssetImage('assets/img/logo_ganaseguros_400.png')),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.notifications,
-            ),
-            onPressed: () {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text('En proceso')));
-            },
-          )
+
         ],
       ),
       /*body: Stack(
@@ -47,9 +35,7 @@ class InicioPage extends StatelessWidget {
           _HomeBody()
         ],
       ),*/
-      body:  _HomeBody()
-
-      ,
+      body: _HomeBody(),
       drawer: DrawerWidget(),
       bottomNavigationBar: CustomBottomNavigatorWidget(),
     );
@@ -80,7 +66,9 @@ class _HomeBody extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
                 ),
-                child: Container(  child:        SlideShowWidget(),)),
+                child: Container(
+                  child: SlideShowWidget(),
+                )),
 
             const SizedBox(
               height: 10,
@@ -89,8 +77,7 @@ class _HomeBody extends StatelessWidget {
 
             Text('¿Que necesitas?',
                 //style: Estilos.stlTextoTitulo()
-                style: Theme.of(context).textTheme.headline5
-            ),
+                style: Theme.of(context).textTheme.headline5),
             SizedBox(
               height: 5,
             ),

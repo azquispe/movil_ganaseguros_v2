@@ -1,20 +1,21 @@
 import 'package:movil_ganaseguros/bd/db_provider.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
+import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
+import 'package:movil_ganaseguros/polizas/models/datos_persona_model.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
 import 'package:flutter/scheduler.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import '../models/datos_persona_model.dart';
+
 import '../models/poliza_model.dart';
-import '../models/request_poliza_model.dart';
+
 import '../providers/consulta_poliza_historico_provider.dart';
 import '../providers/consulta_poliza_provider.dart';
-import '../services/consulta_poliza_service.dart';
-import '../utils/estilos.dart';
-import '../widgets/custom_bottom_navigator_widget.dart';
+
+
 
 class ConsultaPolizaHistoricoPage extends StatefulWidget {
   @override

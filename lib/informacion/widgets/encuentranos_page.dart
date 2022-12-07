@@ -7,7 +7,7 @@ import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
 import 'package:url_launcher/url_launcher.dart';
 
-import '../utils/estilos.dart';
+import '../../utils/estilos.dart';
 import 'custom_bottom_navigator_widget.dart';
 
 class EncuentranosPage extends StatelessWidget {

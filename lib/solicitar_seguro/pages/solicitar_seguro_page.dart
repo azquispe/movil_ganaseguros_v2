@@ -1,7 +1,8 @@
-import 'package:movil_ganaseguros/models/solicitud_seguro_model.dart';
-import 'package:movil_ganaseguros/providers/solicita_seguro_provider.dart';
-import 'package:movil_ganaseguros/services/consulta_poliza_service.dart';
-import 'package:movil_ganaseguros/widgets/custom_bottom_navigator_widget.dart';
+import 'package:movil_ganaseguros/solicitar_seguro/models/dominio_model.dart';
+import 'package:movil_ganaseguros/solicitar_seguro/models/solicitud_seguro_model.dart';
+import 'package:movil_ganaseguros/solicitar_seguro/providers/solicita_seguro_provider.dart';
+import 'package:movil_ganaseguros/polizas/services/consulta_poliza_service.dart';
+import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
@@ -9,7 +10,20 @@ import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 
-class SolicitarSeguroPage extends StatelessWidget {
+class SolicitarSeguroPage extends StatefulWidget {
+  @override
+  State<SolicitarSeguroPage> createState() => _SolicitarSeguroPageState();
+}
+
+class _SolicitarSeguroPageState extends State<SolicitarSeguroPage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    cargarTipoProductos(context);
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     final solicitaSeguroProvider = Provider.of<SolicitaSeguroProvider>(context);
     final _formKey = GlobalKey<FormState>();
@@ -21,21 +35,19 @@ class SolicitarSeguroPage extends StatelessWidget {
             width: 200,
             height: 50,
             image: AssetImage('assets/img/logo_ganaseguros_400.png')),
-          backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: colores.pri_verde_claro),
         elevation: 0,
       ),
       body: Form(
-
         key: _formKey,
         child: ListView(
-
           padding: const EdgeInsets.all(8),
           children: <Widget>[
             Text(
-                textAlign: TextAlign.center,
-                'Solicita tu Seguro',
-                //style: Estilos.stlTextoTitulo(),
+              textAlign: TextAlign.center,
+              'Solicita tu Seguro',
+              //style: Estilos.stlTextoTitulo(),
               style: Theme.of(context).textTheme.subtitle1,
             ),
             SizedBox(
@@ -54,9 +66,7 @@ class SolicitarSeguroPage extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
-
                         controller: solicitaSeguroProvider.txtNombreController,
-
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value == null || value.trim() == "") {
@@ -64,9 +74,8 @@ class SolicitarSeguroPage extends StatelessWidget {
                           }
                           return null;
                         },
-                        style:Theme.of(context).textTheme.bodyText1,
-                        decoration:  InputDecoration(
-
+                        style: Theme.of(context).textTheme.bodyText1,
+                        decoration: InputDecoration(
                             labelStyle: Theme.of(context).textTheme.bodyText1,
                             labelText: 'Nombre(s)',
                             border: OutlineInputBorder(),
@@ -80,17 +89,15 @@ class SolicitarSeguroPage extends StatelessWidget {
                       TextFormField(
                         controller:
                             solicitaSeguroProvider.txtApellidoController,
-
                         keyboardType: TextInputType.text,
-                        style:Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyText1,
                         validator: (value) {
                           if (value == null || value.trim() == "") {
                             return 'Campo requerido';
                           }
                           return null;
                         },
-                        decoration:  InputDecoration(
-
+                        decoration: InputDecoration(
                             labelStyle: Theme.of(context).textTheme.bodyText1,
                             labelText: 'Apellido(s)',
                             border: OutlineInputBorder(),
@@ -103,17 +110,15 @@ class SolicitarSeguroPage extends StatelessWidget {
                       ),
                       TextFormField(
                         controller: solicitaSeguroProvider.txtTelCelController,
-
                         keyboardType: TextInputType.number,
-                        style:Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyText1,
                         validator: (value) {
                           if (value == null || value.trim() == "") {
                             return 'Campo requerido';
                           }
                           return null;
                         },
-                        decoration:  InputDecoration(
-
+                        decoration: InputDecoration(
                             labelStyle: Theme.of(context).textTheme.bodyText1,
                             labelText: 'Teléfono Celular',
                             border: OutlineInputBorder(),
@@ -126,11 +131,9 @@ class SolicitarSeguroPage extends StatelessWidget {
                       ),
                       TextFormField(
                         controller: solicitaSeguroProvider.txtCorreoController,
-
                         keyboardType: TextInputType.emailAddress,
-                        style:Theme.of(context).textTheme.bodyText1,
-                        decoration:  InputDecoration(
-
+                        style: Theme.of(context).textTheme.bodyText1,
+                        decoration: InputDecoration(
                             labelStyle: Theme.of(context).textTheme.bodyText1,
                             labelText: 'Correo',
                             border: OutlineInputBorder(),
@@ -141,25 +144,48 @@ class SolicitarSeguroPage extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      TextFormField(
-                        controller: solicitaSeguroProvider.txtCiudadController,
-
-                        keyboardType: TextInputType.text,
-                        style:Theme.of(context).textTheme.bodyText1,
-                        validator: (value) {
-                          if (value == null || value.trim() == "") {
-                            return 'Campo requerido';
-                          }
-                          return null;
-                        },
-                        decoration:  InputDecoration(
-
+                      DropdownButtonFormField(
+                        value: solicitaSeguroProvider.ciudad,
+                        style: Theme.of(context).textTheme.bodyText1,
+                        decoration: InputDecoration(
                             labelStyle: Theme.of(context).textTheme.bodyText1,
                             labelText: 'Ciudad',
                             border: OutlineInputBorder(),
                             errorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: colores.pri_verde_claro, width: 2))),
+                        items: solicitaSeguroProvider.ciudades.map((e) {
+                          /// Ahora creamos "e" y contiene cada uno de los items de la lista.
+                          return DropdownMenuItem(child: Text(e), value: e);
+                        }).toList(),
+                        onChanged: (String? valor) {
+                          setState(() {
+                            solicitaSeguroProvider.ciudad = valor!=null?valor:"";
+                          });
+                        },
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      DropdownButtonFormField(
+                        value: solicitaSeguroProvider.tipoProductoId,
+                        style: Theme.of(context).textTheme.bodyText1,
+                        decoration: InputDecoration(
+                            labelStyle: Theme.of(context).textTheme.bodyText1,
+                            labelText: 'Tipo de Producto',
+                            border: OutlineInputBorder(),
+                            errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: colores.pri_verde_claro, width: 2))),
+                        items: solicitaSeguroProvider.tipoProductos.map((e) {
+                          /// Ahora creamos "e" y contiene cada uno de los items de la lista.
+                          return DropdownMenuItem(child: Text(e.descripcion), value: e.dominioId.toString());
+                        }).toList(),
+                        onChanged: (String ? valor) {
+                          setState(() {
+                            solicitaSeguroProvider.tipoProductoId = valor!=null?valor:"";
+                          });
+                        },
                       ),
                       SizedBox(
                         height: 10,
@@ -167,7 +193,7 @@ class SolicitarSeguroPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Text(
+                          Text(
                             '¿Tienes algún seguro \n contratado con nosotros?',
                             style: Theme.of(context).textTheme.bodyText1,
                           ),
@@ -227,15 +253,13 @@ class SolicitarSeguroPage extends StatelessWidget {
                       ),
                       TextFormField(
                         controller:
-                            solicitaSeguroProvider.txtTipoSeguroController,
-
+                            solicitaSeguroProvider.txtDescripcionController,
                         maxLines: 3,
                         keyboardType: TextInputType.text,
-                        style:Theme.of(context).textTheme.bodyText1,
-                        decoration:  InputDecoration(
-
+                        style: Theme.of(context).textTheme.bodyText1,
+                        decoration: InputDecoration(
                             labelStyle: Theme.of(context).textTheme.bodyText1,
-                            labelText: '¿Que tipo de seguro te interesa?',
+                            labelText: 'Describa su solicitud',
                             border: OutlineInputBorder(),
                             errorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -249,10 +273,9 @@ class SolicitarSeguroPage extends StatelessWidget {
                             minimumSize: const Size.fromHeight(50),
                             // fromHeight use double.infinity as width and 40 is the height
                             elevation: 0,
-                            backgroundColor:  colores.sec_verde_claro,
+                            backgroundColor: colores.sec_verde_claro,
 
-
-                              shape: RoundedRectangleBorder(
+                            shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
@@ -270,9 +293,9 @@ class SolicitarSeguroPage extends StatelessWidget {
                                     context: context,
                                     artDialogArgs: ArtDialogArgs(
                                         type: ArtSweetAlertType.success,
-                                        title:
-                                            "Su solicitud fue enviado",
-                                        text: "En breve un especialista de GanaSeguros se comunicará contigo",
+                                        title: "Su solicitud fue enviado",
+                                        text:
+                                            "En breve un especialista de GanaSeguros se comunicará contigo",
                                         confirmButtonText: "Aceptar",
                                         confirmButtonColor:
                                             colores.sec_negro_claro2));
@@ -290,7 +313,7 @@ class SolicitarSeguroPage extends StatelessWidget {
                               }
                             }
                           },
-                          child:  Text(
+                          child: Text(
                             'Enviar Solicitud',
                             style: TextStyle(
                                 color: colores.pri_blanco,
@@ -306,17 +329,19 @@ class SolicitarSeguroPage extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigatorWidget(),
     );
   }
-
+  cargarTipoProductos(BuildContext context) async {
+    final solicitaSeguroProvider = Provider.of<SolicitaSeguroProvider>(context,listen: false);
+    await solicitaSeguroProvider.obtenerTipoProductos();
+  }
   void limpiarFormulario(BuildContext context) {
-    final solicitaSeguroProvider =
-        Provider.of<SolicitaSeguroProvider>(context, listen: false);
+    final solicitaSeguroProvider = Provider.of<SolicitaSeguroProvider>(context, listen: false);
     solicitaSeguroProvider.txtNombreController.text = "";
     solicitaSeguroProvider.txtApellidoController.text = "";
     solicitaSeguroProvider.txtTelCelController.text = "";
     solicitaSeguroProvider.txtCorreoController.text = "";
-    solicitaSeguroProvider.txtCiudadController.text = "";
+    //solicitaSeguroProvider.ciudad = "";
     solicitaSeguroProvider.boolTieneSeguroConNosotros = false;
     solicitaSeguroProvider.boolTieneSeguroConOtros = false;
-    solicitaSeguroProvider.txtTipoSeguroController.text = "";
+    //solicitaSeguroProvider.tipoProductoId = "";
   }
 }

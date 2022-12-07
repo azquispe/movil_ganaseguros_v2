@@ -1,8 +1,8 @@
 import 'package:movil_ganaseguros/bd/db_provider.dart';
-import 'package:movil_ganaseguros/models/datos_persona_model.dart';
-import 'package:movil_ganaseguros/models/poliza_model.dart';
-import 'package:movil_ganaseguros/models/request_poliza_model.dart';
-import 'package:movil_ganaseguros/services/consulta_poliza_service.dart';
+import 'package:movil_ganaseguros/polizas/models/datos_persona_model.dart';
+import 'package:movil_ganaseguros/polizas/models/poliza_model.dart';
+import 'package:movil_ganaseguros/polizas/models/request_poliza_model.dart';
+import 'package:movil_ganaseguros/polizas/services/consulta_poliza_service.dart';
 
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class ConsultaPolizaProvider with ChangeNotifier {
 
   TextEditingController _txtNroDocumentoController = TextEditingController();
-  TextEditingController _txtExtensionController = TextEditingController();
+  TextEditingController _txtCiudadExpedidoController = TextEditingController();
   TextEditingController _txtComplementoController = TextEditingController();
   TextEditingController _txtFechaNacimientoController = TextEditingController();
   List<PolizaModel> _lstPolizaModel = [];
@@ -24,10 +24,10 @@ class ConsultaPolizaProvider with ChangeNotifier {
     _txtNroDocumentoController = value;
   }
 
-  TextEditingController get txtExtensionController => _txtExtensionController;
+  TextEditingController get txtExtensionController => _txtCiudadExpedidoController;
 
-  set txtExtensionController(TextEditingController value) {
-    _txtExtensionController = value;
+  set txtCiudadExpedidoController(TextEditingController value) {
+    _txtCiudadExpedidoController = value;
   }
 
   List<PolizaModel> get lstPolizaModel => _lstPolizaModel;
@@ -59,7 +59,7 @@ class ConsultaPolizaProvider with ChangeNotifier {
   Future<List<PolizaModel>> consultarPoliza() async {
     RequestPolizaModel objInsert = RequestPolizaModel(
       nroDocumento: this._txtNroDocumentoController.text,
-      extension: this._txtExtensionController.text,
+      ciudadExpedido: this._txtCiudadExpedidoController.text,
       complemento: this._txtComplementoController.text,
       fechaNacimiento: this._txtFechaNacimientoController.text
     );
@@ -70,7 +70,7 @@ class ConsultaPolizaProvider with ChangeNotifier {
     if(objDatosPersonas==null){
           DatosPersonasModel objInsert = DatosPersonasModel(
           nroDocumento: this._txtNroDocumentoController.text.trim(),
-          extension: this._txtExtensionController.text.trim(),
+          extension: this._txtCiudadExpedidoController.text.trim(),
           complemento: this._txtComplementoController.text.trim(),
           nombreAsegurado:lstPolizaModel[0].nombreAsegurado, // OJO HAY Q REVISAR, DE MOMENTO ESTA AGARRANDO EL PRIMERO DE LA LISTA
           nombreTomador:lstPolizaModel[0].nombreTomador, // OJO HAY Q REVISAR, DE MOMENTO ESTA AGARRANDO EL PRIMERO DE LA LISTA

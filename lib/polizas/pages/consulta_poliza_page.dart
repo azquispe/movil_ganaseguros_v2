@@ -1,15 +1,13 @@
-import 'package:movil_ganaseguros/models/poliza_model.dart';
-import 'package:movil_ganaseguros/bd/db_provider.dart';
-import 'package:movil_ganaseguros/providers/consulta_poliza_historico_provider.dart';
-import 'package:movil_ganaseguros/providers/consulta_poliza_provider.dart';
-import 'package:movil_ganaseguros/services/consulta_poliza_service.dart';
+
+import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
+import 'package:movil_ganaseguros/polizas/models/poliza_model.dart';
+import 'package:movil_ganaseguros/polizas/providers/consulta_poliza_provider.dart';
 import 'package:movil_ganaseguros/utils/estilos.dart';
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import '../widgets/custom_bottom_navigator_widget.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:art_sweetalert/art_sweetalert.dart';
 
