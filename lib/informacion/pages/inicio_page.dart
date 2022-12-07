@@ -4,7 +4,6 @@ import 'package:movil_ganaseguros/informacion/widgets/slide_show_widget.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import '../widgets/card_inicio_widget.dart';
 import '../widgets/drawer_widget.dart';
-import 'package:badges/badges.dart';
 
 class InicioPage extends StatelessWidget {
 
