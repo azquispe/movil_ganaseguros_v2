@@ -50,10 +50,10 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    PushNotificationService.messagesStream.listen((message) {
+    /*PushNotificationService.messagesStream.listen((message) {
       final avisoProvider = Provider.of<AvisoProvider>(context,listen: false);
       avisoProvider.avisosNuevos ++;
-    });
+    });*/
   }
 
   // This widget is the root of your application.
