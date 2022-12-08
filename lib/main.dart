@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:movil_ganaseguros/avisos/pages/aviso_page.dart';
 import 'package:movil_ganaseguros/avisos/providers/aviso_provider.dart';
 import 'package:movil_ganaseguros/avisos/services/aviso_service.dart';
+import 'package:movil_ganaseguros/avisos/services/push_noitfications_service.dart';
 import 'package:movil_ganaseguros/firebase_options.dart';
 import 'package:movil_ganaseguros/polizas/pages/consulta_poliza_historico_page.dart';
 import 'package:movil_ganaseguros/polizas/pages/consulta_poliza_page.dart';
@@ -25,18 +26,14 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+/*Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  print("Nuevo Push: ${message.messageId}");
-  RemoteNotification? notification = message.notification;
-
-
-
-}
+}*/
 
 void main() async {
+  /*
   // https://firebase.flutter.dev/docs/messaging/usage
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -63,15 +60,20 @@ void main() async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
+    notificationCounterValueNotifer.value++;
+
     print('Message data: ${message.data}');
     if (message.notification != null) {
+
       print('Message also contained a notification: ${message.notification}');
+
     }
-  });
+  });*/
 
 
 
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService.initializeApp();
   runApp(const MyApp());
 }
 

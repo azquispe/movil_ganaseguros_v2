@@ -7,8 +7,6 @@ import '../widgets/drawer_widget.dart';
 
 class InicioPage extends StatelessWidget {
 
-  final contadorNotificacion = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
