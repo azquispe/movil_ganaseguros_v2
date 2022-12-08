@@ -26,65 +26,39 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 
-/*Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-}*/
-
 void main() async {
-  /*
-  // https://firebase.flutter.dev/docs/messaging/usage
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform
-  );
-
-
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  messaging.subscribeToTopic('anuncios_ganaseguros_2022_dev');
-
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  print('User granted permission: ${settings.authorizationStatus}');
-
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    notificationCounterValueNotifer.value++;
-
-    print('Message data: ${message.data}');
-    if (message.notification != null) {
-
-      print('Message also contained a notification: ${message.notification}');
-
-    }
-  });*/
-
-
-
   WidgetsFlutterBinding.ensureInitialized();
   await PushNotificationService.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => ConsultaPolizaProvider()),
+    ChangeNotifierProvider(create: (_) => ConsultaPolizaHistoricoProvider()),
+    ChangeNotifierProvider(create: (_) => SolicitaSeguroProvider()),
+    ChangeNotifierProvider(create: (_) => AvisoProvider())
+  ], child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PushNotificationService.messagesStream.listen((message) {
+      final avisoProvider = Provider.of<AvisoProvider>(context,listen: false);
+      avisoProvider.avisosNuevos ++;
+    });
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       //color set to transperent or set your own color
@@ -92,68 +66,61 @@ class MyApp extends StatelessWidget {
       //set brightness for icons, like dark background light icons
     ));
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ConsultaPolizaProvider()),
-        ChangeNotifierProvider(create: (_) => ConsultaPolizaHistoricoProvider()),
-        ChangeNotifierProvider(create: (_) => SolicitaSeguroProvider()),
-        ChangeNotifierProvider(create: (_) => AvisoProvider())
-      ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: [
-            const Locale('en', ''), // English, no country code
-            const Locale('es', ''), // Spanish, no country code
-          ],
-          //initialRoute: 'inicio_page',
-          routes: {
-            'inicio_page': (_) => InicioPage(),
-            'consulta_poliza_historico_page': (_) =>
-                ConsultaPolizaHistoricoPage(),
-            'consulta_poliza_page': (_) => ConsultaPolizaPage(),
-            'lista_poliza_detalle_page': (_) => ListaPolizaDetallePage(),
-            'solicitar_seguro_page': (_) => SolicitarSeguroPage(),
-            'encuentranos_page': (_) => EncuentranosPage(),
-            'nosotros_page': (_) => NosotrosPage(),
-            'avisos': (_) => AvisoPage(),
-          },
-          home:  AnimatedSplashScreen(
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', ''), // English, no country code
+          const Locale('es', ''), // Spanish, no country code
+        ],
+        //initialRoute: 'inicio_page',
+        routes: {
+          'inicio_page': (_) => InicioPage(),
+          'consulta_poliza_historico_page': (_) =>
+              ConsultaPolizaHistoricoPage(),
+          'consulta_poliza_page': (_) => ConsultaPolizaPage(),
+          'lista_poliza_detalle_page': (_) => ListaPolizaDetallePage(),
+          'solicitar_seguro_page': (_) => SolicitarSeguroPage(),
+          'encuentranos_page': (_) => EncuentranosPage(),
+          'nosotros_page': (_) => NosotrosPage(),
+          'avisos': (_) => AvisoPage(),
+        },
+        home: AnimatedSplashScreen(
 
-              duration: 3000,
-              splash:  Column(
-                children: [
-                  Text("Bienvenido a:",style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        color:  colores.pri_blanco,
-                        letterSpacing: 0.3,
-                        //fontSize: 22,
-                        fontWeight: FontWeight.bold),
-                  )),
-                  const Image(
-                      width: 200,
-                      height: 50,
-                      image:  AssetImage('assets/img/logo_verde.jpg')),
-                ],
-              ),
-              nextScreen: InicioPage(),
+            duration: 3000,
+            splash: Column(
+              children: [
+                Text("Bienvenido a:", style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      color: colores.pri_blanco,
+                      letterSpacing: 0.3,
+                      //fontSize: 22,
+                      fontWeight: FontWeight.bold),
+                )),
+                const Image(
+                    width: 200,
+                    height: 50,
+                    image: AssetImage('assets/img/logo_verde.jpg')),
+              ],
+            ),
+            nextScreen: InicioPage(),
 
-              splashTransition: SplashTransition.fadeTransition,
-              pageTransitionType: PageTransitionType.fade,
-              backgroundColor: colores.pri_verde_claro),
-          theme: ThemeData(
+            splashTransition: SplashTransition.fadeTransition,
+            pageTransitionType: PageTransitionType.fade,
+            backgroundColor: colores.pri_verde_claro),
+        theme: ThemeData(
 
 
-            // Define el TextTheme por defecto. Usa esto para espicificar el estilo de texto por defecto
-            // para cabeceras, títulos, cuerpos de texto, y más.
-            textTheme: TextTheme(
+          // Define el TextTheme por defecto. Usa esto para espicificar el estilo de texto por defecto
+          // para cabeceras, títulos, cuerpos de texto, y más.
+          textTheme: TextTheme(
 
 
-              /*
+            /*
             https://api.flutter.dev/flutter/material/TextTheme-class.html
             https://www.didierboelens.com/2020/05/material-textstyle-texttheme/
             NAME         SIZE  WEIGHT  SPACING
@@ -172,62 +139,62 @@ class MyApp extends StatelessWidget {
             overline     10.0  regular  1.5
              */
 
-              // PARA LOS TITULOS GRANDES
-              headline5: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    color:  colores.pri_verde_claro,
-                    letterSpacing: 0.3,
-                    //fontSize: 22,
-                    fontWeight: FontWeight.bold),
-              ),
-              // ============================
-
-              // PARA LOS SUBTITULOS
-              subtitle1: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    color: colores.sec_verde_oscuro,
-                    letterSpacing: 0.3,
-                    fontWeight: FontWeight.bold),
-              ),
-              subtitle2: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    color: colores.sec_verde_oscuro,
-                    letterSpacing: 0.3,
-                    fontWeight: FontWeight.bold),
-              ),
-              // ================================
-
-              // PARA TEXTOS
-              bodyText1: GoogleFonts.poppins( // normal
-                textStyle: TextStyle(
-                    color: colores.pri_negro,
-                    letterSpacing: 0.3,
-                    //fontSize: 22,
-                    fontWeight: FontWeight.normal),
-              ),
-              bodyText2: GoogleFonts.poppins( // negrilla
-                textStyle: TextStyle(
-                    color:colores.pri_negro,
-                    letterSpacing: 0.3,
-                    //fontSize: 22,
-                    fontWeight: FontWeight.bold),
-              ),
-              // ==============================
-
-
-              // TEXTO PEQUEÑO
-
-              overline: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    color:  colores.sec_verde_petroleo,
-                    letterSpacing: 0.3,
-                    //fontSize: 22,
-                    fontWeight: FontWeight.normal),
-              ),
+            // PARA LOS TITULOS GRANDES
+            headline5: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  color: colores.pri_verde_claro,
+                  letterSpacing: 0.3,
+                  //fontSize: 22,
+                  fontWeight: FontWeight.bold),
             ),
-          )
+            // ============================
 
-      ),
+            // PARA LOS SUBTITULOS
+            subtitle1: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  color: colores.sec_verde_oscuro,
+                  letterSpacing: 0.3,
+                  fontWeight: FontWeight.bold),
+            ),
+            subtitle2: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  color: colores.sec_verde_oscuro,
+                  letterSpacing: 0.3,
+                  fontWeight: FontWeight.bold),
+            ),
+            // ================================
+
+            // PARA TEXTOS
+            bodyText1: GoogleFonts.poppins( // normal
+              textStyle: TextStyle(
+                  color: colores.pri_negro,
+                  letterSpacing: 0.3,
+                  //fontSize: 22,
+                  fontWeight: FontWeight.normal),
+            ),
+            bodyText2: GoogleFonts.poppins( // negrilla
+              textStyle: TextStyle(
+                  color: colores.pri_negro,
+                  letterSpacing: 0.3,
+                  //fontSize: 22,
+                  fontWeight: FontWeight.bold),
+            ),
+            // ==============================
+
+
+            // TEXTO PEQUEÑO
+
+            overline: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  color: colores.sec_verde_petroleo,
+                  letterSpacing: 0.3,
+                  //fontSize: 22,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        )
+
+
     );
   }
 }

@@ -14,6 +14,7 @@ class AvisoProvider with ChangeNotifier {
 
   set avisosNuevos(int value) {
     _avisosNuevos = value;
+    notifyListeners();
   }
 
   List<AvisoModel> get lstAvisoModel => _lstAvisoModel;

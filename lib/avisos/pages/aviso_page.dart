@@ -127,6 +127,7 @@ class _AvisoPageState extends State<AvisoPage> {
           child: Container(
             //width: MediaQuery.of(context).size.width * 0.98,
             child: FadeInImage(
+
               placeholder: AssetImage('assets/gif/loading.gif'),
               image: NetworkImage(pAvisoModel.enlace!.trim()),
             ),
