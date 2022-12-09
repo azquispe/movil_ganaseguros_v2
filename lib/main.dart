@@ -27,8 +27,8 @@ import 'package:page_transition/page_transition.dart';
 
 
 void main() async {
-  /*WidgetsFlutterBinding.ensureInitialized();
-  await PushNotificationService.initializeApp();*/
+  WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService.initializeApp();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ConsultaPolizaProvider()),
     ChangeNotifierProvider(create: (_) => ConsultaPolizaHistoricoProvider()),

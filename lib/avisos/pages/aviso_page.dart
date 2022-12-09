@@ -34,14 +34,16 @@ class _AvisoPageState extends State<AvisoPage> {
         iconTheme: IconThemeData(color: colores.pri_verde_claro),
         elevation: 0,
       ),
-      body: avisoProvider.lstAvisoModel.length > 0
+      body: (avisoProvider.lstAvisoModel.length > 0 && !avisoProvider.descargandoAviso)
           ? _crearListaAviso(avisoProvider.lstAvisoModel)
-          : Center(
-              child: CircularProgressIndicator(
-              backgroundColor: colores.sec_negro_claro4,
-              valueColor: AlwaysStoppedAnimation(colores.pri_verde_claro),
-              strokeWidth: 5,
-            )),
+          : avisoProvider.descargandoAviso==true?
+              Center(
+                child: CircularProgressIndicator(
+                backgroundColor: colores.sec_negro_claro4,
+                valueColor: AlwaysStoppedAnimation(colores.pri_verde_claro),
+                strokeWidth: 5,
+            ),
+              ):Center(child: Text("No existe Avisos")),
       bottomNavigationBar: CustomBottomNavigatorWidget(),
     );
   }
@@ -108,7 +110,7 @@ class _AvisoPageState extends State<AvisoPage> {
         children: [
           Text(
             pAvisoModel.titulo!.trim().toString(),
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.subtitle1,
             textAlign: TextAlign.center,
           ),
         ],
@@ -146,7 +148,7 @@ class _AvisoPageState extends State<AvisoPage> {
           width: MediaQuery.of(context).size.width * 0.90,
           child: Text(
             pAvisoModel.contenido.toString(),
-            style: Theme.of(context).textTheme.bodyText2,
+            style: Theme.of(context).textTheme.bodyText1,
             textAlign: TextAlign.left,
           ),
         ),
