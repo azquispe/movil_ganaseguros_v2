@@ -28,11 +28,12 @@ class InicioPage extends StatelessWidget {
         actions: <Widget>[
           avisoProvider.avisosNuevos > 0
               ? Badge(
-                  badgeContent: Text(avisoProvider.avisosNuevos.toString(),
-                      style:
-                          TextStyle(fontSize: 20, color: colores.pri_blanco)),
+                  badgeContent: Container( padding: EdgeInsets.all(2), child: Text(avisoProvider.avisosNuevos.toString(), style: TextStyle(fontSize: 20, color: colores.pri_blanco))),
+              position: BadgePosition.topEnd(top: -3, end: 2),
+                  
                   badgeColor: Colors.deepOrange,
                   child: IconButton(
+                    padding: EdgeInsets.all(0),
                     icon: Icon(Icons.notifications, size: 30),
                     onPressed: () {
                       avisoProvider.avisosNuevos = 0;

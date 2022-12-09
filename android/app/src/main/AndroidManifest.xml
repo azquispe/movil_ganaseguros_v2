@@ -7,7 +7,7 @@
    <application
         android:label="Gana Seguros"
         android:name="${applicationName}"
-        android:icon="@mipmap/icono_app">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -27,8 +27,8 @@ import 'package:page_transition/page_transition.dart';
 
 
 void main() async {
-  /*WidgetsFlutterBinding.ensureInitialized();
-  await PushNotificationService.initializeApp();*/
+  WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService.initializeApp();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ConsultaPolizaProvider()),
     ChangeNotifierProvider(create: (_) => ConsultaPolizaHistoricoProvider()),
@@ -50,10 +50,10 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    /*PushNotificationService.messagesStream.listen((message) {
+    PushNotificationService.messagesStream.listen((message) {
       final avisoProvider = Provider.of<AvisoProvider>(context,listen: false);
       avisoProvider.avisosNuevos ++;
-    });*/
+    });
   }
 
   // This widget is the root of your application.
@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
             duration: 3000,
             splash: Column(
               children: [
-                Text("Bienvenido a:", style: GoogleFonts.poppins(
+                Text("Bienvenido a", style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       color: colores.pri_blanco,
                       letterSpacing: 0.3,
