@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/avisos/models/aviso_model.dart';
 import 'package:movil_ganaseguros/avisos/providers/aviso_provider.dart';
+import 'package:movil_ganaseguros/informacion/widgets/circular_progress_widget.dart';
 import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
@@ -13,16 +14,19 @@ class AvisoPage extends StatefulWidget {
 }
 
 class _AvisoPageState extends State<AvisoPage> {
+
   @override
   void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<AvisoProvider>(context, listen: false).obtenerAvisos();
+    });
     // TODO: implement initState
-    obtieneListaAviso(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final avisoProvider = Provider.of<AvisoProvider>(context);
+    final  avisoProvider = Provider.of<AvisoProvider>(context);
     return Scaffold(
       backgroundColor: colores.pri_blanco,
       appBar: AppBar(
@@ -35,28 +39,31 @@ class _AvisoPageState extends State<AvisoPage> {
         elevation: 0,
       ),
       body: (avisoProvider.lstAvisoModel.length > 0 && !avisoProvider.descargandoAviso)
-          ? _crearListaAviso(avisoProvider.lstAvisoModel)
+          ? _crearListaAviso(avisoProvider.lstAvisoModel,context)
           : avisoProvider.descargandoAviso==true?
               Center(
-                child: CircularProgressIndicator(
-                backgroundColor: colores.sec_negro_claro4,
-                valueColor: AlwaysStoppedAnimation(colores.pri_verde_claro),
-                strokeWidth: 5,
-            ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressWidget(),
+                    SizedBox(height: 10,),
+                    Text("Cargando Avisos")
+                  ],
+                ),
               ):Center(child: Text("No existe Avisos")),
       bottomNavigationBar: CustomBottomNavigatorWidget(),
     );
   }
 
-  Widget _crearListaAviso(List<AvisoModel> lstAviso) {
+  Widget _crearListaAviso(List<AvisoModel> lstAviso, BuildContext context) {
     return ListView.builder(
         itemCount: lstAviso.length,
         itemBuilder: (BuildContext context, int index) {
-          return _crearItemAviso(pAvisoModel: lstAviso[index]);
+          return _crearItemAviso(pAvisoModel: lstAviso[index],context: context);
         });
   }
 
-  Widget _crearItemAviso({required AvisoModel pAvisoModel}) {
+  Widget _crearItemAviso({required AvisoModel pAvisoModel, required BuildContext context}) {
     return Card(
         color: colores.pri_blanco,
         shape: RoundedRectangleBorder(
@@ -70,40 +77,20 @@ class _AvisoPageState extends State<AvisoPage> {
           padding: EdgeInsets.all(10),
           child: Column(
             children: <Widget>[
-              _tituloAviso(pAvisoModel),
-              _contenidoAviso(pAvisoModel),
-              _imagenAviso(pAvisoModel),
+              _tituloAviso(pAvisoModel,context),
+              _contenidoAviso(pAvisoModel,context),
+              _imagenAviso(pAvisoModel,context),
               Divider(
                 color: Colors.indigo,
               ),
-              _fechaAviso(pAvisoModel)
+              _fechaAviso(pAvisoModel,context)
             ],
           ),
         ),
     );
-
-    /*return Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            side: BorderSide(width: 1, color: colores.sec_verde_oscuro)),
-        child: Container(
-          padding: EdgeInsets.all(14.0),
-          child: Column(
-            children: <Widget>[
-              _tituloAviso(pAvisoModel),
-              _contenidoAviso(pAvisoModel),
-              _imagenAviso(pAvisoModel),
-              Divider(
-                color: Colors.indigo,
-              ),
-              _fechaAviso(pAvisoModel)
-            ],
-          ),
-        ));*/
   }
 
-  Widget _tituloAviso(AvisoModel pAvisoModel) {
+  Widget _tituloAviso(AvisoModel pAvisoModel, BuildContext context) {
     if (pAvisoModel.titulo != null &&
         pAvisoModel.titulo!.trim() != "") // titulo obligatorio
       return Column(
@@ -119,7 +106,7 @@ class _AvisoPageState extends State<AvisoPage> {
       return Row();
   }
 
-  Widget _imagenAviso(AvisoModel pAvisoModel) {
+  Widget _imagenAviso(AvisoModel pAvisoModel,BuildContext context) {
     if (pAvisoModel.enlace != null && pAvisoModel.enlace!.trim() != "") {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 10),
@@ -141,7 +128,7 @@ class _AvisoPageState extends State<AvisoPage> {
     }
   }
 
-  Column _contenidoAviso(AvisoModel pAvisoModel) {
+  Column _contenidoAviso(AvisoModel pAvisoModel,BuildContext context) {
     if (pAvisoModel.contenido != null && pAvisoModel.contenido!.trim() != "")
       return Column(children: <Widget>[
         Container(
@@ -158,7 +145,7 @@ class _AvisoPageState extends State<AvisoPage> {
     }
   }
 
-  Widget _fechaAviso(AvisoModel pAvisoModel) {
+  Widget _fechaAviso(AvisoModel pAvisoModel,BuildContext context) {
     if (pAvisoModel.fechaAviso != null && pAvisoModel.fechaAviso!.trim() != "")
       return Container(
         //width: MediaQuery.of(context).size.width * 0.95,
@@ -179,10 +166,5 @@ class _AvisoPageState extends State<AvisoPage> {
     else {
       return Row();
     }
-  }
-
-  obtieneListaAviso(BuildContext context) async {
-    final avisoProvider = Provider.of<AvisoProvider>(context, listen: false);
-    await avisoProvider.obtenerAvisos();
   }
 }

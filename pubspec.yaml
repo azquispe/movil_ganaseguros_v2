@@ -41,7 +41,6 @@ dependencies:
   provider: ^6.0.4
   sqflite: ^2.2.0+3
   future_progress_dialog: ^0.2.0
-  flutter_image_slideshow: ^0.1.4
   open_file: ^3.2.1
   path_provider: ^2.0.11
   art_sweetalert: ^0.0.5
@@ -50,6 +49,7 @@ dependencies:
   firebase_core: ^2.3.0
   firebase_messaging: ^14.1.3
   badges: ^2.0.3
+  flutter_image_slideshow: ^0.1.4
 
 dev_dependencies:
   flutter_test:

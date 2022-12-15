@@ -6,6 +6,7 @@ import 'package:movil_ganaseguros/avisos/providers/aviso_provider.dart';
 import 'package:movil_ganaseguros/avisos/services/aviso_service.dart';
 import 'package:movil_ganaseguros/avisos/services/push_noitfications_service.dart';
 import 'package:movil_ganaseguros/firebase_options.dart';
+import 'package:movil_ganaseguros/informacion/providers/oferta_provider.dart';
 import 'package:movil_ganaseguros/polizas/pages/consulta_poliza_historico_page.dart';
 import 'package:movil_ganaseguros/polizas/pages/consulta_poliza_page.dart';
 import 'package:movil_ganaseguros/informacion/pages/inicio_page.dart';
@@ -33,7 +34,8 @@ void main() async {
     ChangeNotifierProvider(create: (_) => ConsultaPolizaProvider()),
     ChangeNotifierProvider(create: (_) => ConsultaPolizaHistoricoProvider()),
     ChangeNotifierProvider(create: (_) => SolicitaSeguroProvider()),
-    ChangeNotifierProvider(create: (_) => AvisoProvider())
+    ChangeNotifierProvider(create: (_) => AvisoProvider()),
+    ChangeNotifierProvider(create: (_) => OfertaProvider())
   ], child: MyApp()));
 }
 

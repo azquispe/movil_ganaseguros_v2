@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:movil_ganaseguros/avisos/providers/aviso_provider.dart';
+import 'package:movil_ganaseguros/informacion/providers/oferta_provider.dart';
 import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/informacion/widgets/slide_show_widget.dart';
@@ -12,6 +13,7 @@ class InicioPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final avisoProvider = Provider.of<AvisoProvider>(context);
+
     return Scaffold(
       backgroundColor: colores.pri_blanco,
       appBar: AppBar(
@@ -28,9 +30,12 @@ class InicioPage extends StatelessWidget {
         actions: <Widget>[
           avisoProvider.avisosNuevos > 0
               ? Badge(
-                  badgeContent: Container( padding: EdgeInsets.all(2), child: Text(avisoProvider.avisosNuevos.toString(), style: TextStyle(fontSize: 20, color: colores.pri_blanco))),
-              position: BadgePosition.topEnd(top: -3, end: 2),
-                  
+                  badgeContent: Container(
+                      padding: EdgeInsets.all(2),
+                      child: Text(avisoProvider.avisosNuevos.toString(),
+                          style: TextStyle(
+                              fontSize: 20, color: colores.pri_blanco))),
+                  position: BadgePosition.topEnd(top: -3, end: 2),
                   badgeColor: Colors.deepOrange,
                   child: IconButton(
                     padding: EdgeInsets.all(0),
@@ -82,16 +87,20 @@ class _HomeBody extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline5),
             Card(
                 elevation: 0,
-                margin: EdgeInsets.all(5),
                 shape: RoundedRectangleBorder(
                   side: const BorderSide(
                     color: colores.sec_verde_oscuro,
                   ),
                   borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
                 ),
-                child: Container(
-                  child: SlideShowWidget(),
-                )),
+                child: Column(
+
+                  children: [
+                    SlideShowWidget(),
+
+                  ],
+                ),
+                ),
 
             const SizedBox(
               height: 10,

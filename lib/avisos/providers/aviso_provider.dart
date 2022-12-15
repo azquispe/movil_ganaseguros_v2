@@ -1,14 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:movil_ganaseguros/avisos/models/aviso_model.dart';
 import 'package:movil_ganaseguros/avisos/services/aviso_service.dart';
-import 'package:movil_ganaseguros/bd/db_provider.dart';
-import 'package:movil_ganaseguros/polizas/models/datos_persona_model.dart';
 
 class AvisoProvider with ChangeNotifier {
   List<AvisoModel> _lstAvisoModel = [];
-  bool descargandoAviso = false;
+  bool _descargandoAviso = false;
   int _avisosNuevos = 0;
 
+
+  bool get descargandoAviso => _descargandoAviso;
+
+  set descargandoAviso(bool value) {
+    _descargandoAviso = value;
+    notifyListeners();
+  }
 
   int get avisosNuevos => _avisosNuevos;
 
@@ -27,10 +32,11 @@ class AvisoProvider with ChangeNotifier {
   AvisoService _avisoService = new AvisoService();
 
   Future<void> obtenerAvisos() async {
-    this.lstAvisoModel= [];
+    this._lstAvisoModel= [];
     this.descargandoAviso = true;
     this.lstAvisoModel = await _avisoService.obtenerAvisos();
     this.descargandoAviso = false;
+
   }
 
 }
