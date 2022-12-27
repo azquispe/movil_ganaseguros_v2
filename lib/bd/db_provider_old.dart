@@ -55,6 +55,14 @@ class DBProvider {
     fechaNacimiento TEXT
     )
     ''');
+    await db.execute('''
+     CREATE TABLE Dominios(
+    dominioId INTEGER PRIMARY KEY, 
+    dominio TEXT,  
+    descripcion TEXT, 
+    abreviatura TEXT
+    )
+    ''');
 
 
 
@@ -122,7 +130,7 @@ class DBProvider {
 // ========================
 
 // Dominios
-  /*Future<void> nuevoVariosDominios(List<DominioModel> lstDominioModel) async {
+  Future<void> nuevoVariosDominios(List<DominioModel> lstDominioModel) async {
     print("REGISTRANDO NUEVO DOMINIO==============================");
     final db = await instance.database;
     await db.transaction((txn) async {
@@ -145,6 +153,6 @@ class DBProvider {
     final db = await instance.database;
     final res = await db.rawDelete('DELETE FROM Dominios');
     return res;
-  }*/
+  }
 // =====
 }

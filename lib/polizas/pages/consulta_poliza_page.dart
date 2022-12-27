@@ -2,6 +2,7 @@
 import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:movil_ganaseguros/polizas/models/poliza_model.dart';
 import 'package:movil_ganaseguros/polizas/providers/consulta_poliza_provider.dart';
+import 'package:movil_ganaseguros/utils/dialogos.dart';
 import 'package:movil_ganaseguros/utils/estilos.dart';
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
@@ -9,7 +10,7 @@ import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
-import 'package:art_sweetalert/art_sweetalert.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ConsultaPolizaPage extends StatelessWidget {
 
@@ -171,7 +172,7 @@ class ConsultaPolizaPage extends StatelessWidget {
                   List<PolizaModel> ? lstPolizaModel = await showDialog(
                     context: context,
                     builder: (context) =>
-                        FutureProgressDialog(consultaPolizaProvider.consultarPoliza() ,
+                        FutureProgressDialog(consultaPolizaProvider.consultarPolizaInvitado() ,
                             message: Text(
                               'Procesando...',
                               style: GoogleFonts.poppins(
@@ -188,13 +189,10 @@ class ConsultaPolizaPage extends StatelessWidget {
                     Navigator.of(context)
                         .pushNamed('lista_poliza_detalle_page');
                   } else {
-                    ArtSweetAlert.show(
-                        context: context,
-                        artDialogArgs: ArtDialogArgs(
-                            type: ArtSweetAlertType.info,
-                            text: "No se ha encontrado Póliza!",
-                            confirmButtonText: "Aceptar",
-                            confirmButtonColor: colores.sec_negro_claro2));
+
+
+                    Dialogos.dialogoInformativo(pTitulo: "Consulta de Póliza",pDescripcion: "No se ha encontrado Póliza",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.info).show();
+
                   }
                   consultaPolizaProvider.limpiarCamposForm();
                 }

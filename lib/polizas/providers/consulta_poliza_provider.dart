@@ -1,5 +1,5 @@
 import 'package:movil_ganaseguros/bd/db_provider.dart';
-import 'package:movil_ganaseguros/polizas/models/datos_persona_model.dart';
+import 'package:movil_ganaseguros/polizas/models/historial_busqueda_poliza_model.dart';
 import 'package:movil_ganaseguros/polizas/models/poliza_model.dart';
 import 'package:movil_ganaseguros/polizas/models/request_poliza_model.dart';
 import 'package:movil_ganaseguros/polizas/services/consulta_poliza_service.dart';
@@ -56,7 +56,7 @@ class ConsultaPolizaProvider with ChangeNotifier {
   // Creado por aquispe ............... 18/11/2022
   // Metodo que consulta poliza del servicio
   // registrar busqueda historica en caso no exista registrado
-  Future<List<PolizaModel>> consultarPoliza() async {
+  Future<List<PolizaModel>> consultarPolizaInvitado() async {
     RequestPolizaModel objInsert = RequestPolizaModel(
       nroDocumento: this._txtNroDocumentoController.text,
       ciudadExpedido: this._txtCiudadExpedidoController.text,
@@ -66,9 +66,9 @@ class ConsultaPolizaProvider with ChangeNotifier {
     this.lstPolizaModel = await  _consultaPolizaService.obtenerPolizasPorNroDocumento(objInsert);
 
     // Verificar
-    DatosPersonasModel? objDatosPersonas = await DBProvider.instance.obtenerDatosPersonaPorNroDocumento(this._txtNroDocumentoController.text.trim());
-    if(objDatosPersonas==null){
-          DatosPersonasModel objInsert = DatosPersonasModel(
+    HistorialBusquedaPolizaModel? objHistorialBusquedaPolizaModel = await DBProvider.instance.obtenerHistorialBusquedaPolizaPorNroDocumento(this._txtNroDocumentoController.text.trim());
+    if(objHistorialBusquedaPolizaModel==null){
+      HistorialBusquedaPolizaModel objInsert = HistorialBusquedaPolizaModel(
           nroDocumento: this._txtNroDocumentoController.text.trim(),
           extension: this._txtCiudadExpedidoController.text.trim(),
           complemento: this._txtComplementoController.text.trim(),
@@ -76,8 +76,19 @@ class ConsultaPolizaProvider with ChangeNotifier {
           nombreTomador:lstPolizaModel[0].nombreTomador, // OJO HAY Q REVISAR, DE MOMENTO ESTA AGARRANDO EL PRIMERO DE LA LISTA
           fechaNacimiento: this.txtFechaNacimientoController.text.trim()
           );
-          await DBProvider.instance.nuevoDatosPersona(objInsert);
+          await DBProvider.instance.nuevoHistorialBusquedaPoliza(objInsert);
     }
+    return this.lstPolizaModel;
+  }
+  Future<List<PolizaModel>> consultarPoliza() async {
+    RequestPolizaModel objInsert = RequestPolizaModel(
+        nroDocumento: this._txtNroDocumentoController.text,
+        ciudadExpedido: this._txtCiudadExpedidoController.text,
+        complemento: this._txtComplementoController.text,
+        fechaNacimiento: this._txtFechaNacimientoController.text
+    );
+    this.lstPolizaModel = await  _consultaPolizaService.obtenerPolizasPorNroDocumento(objInsert);
+
     return this.lstPolizaModel;
   }
   limpiarCamposForm (){

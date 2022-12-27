@@ -1,14 +1,13 @@
-import 'package:movil_ganaseguros/bd/db_provider.dart';
-import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
-import 'package:movil_ganaseguros/polizas/models/datos_persona_model.dart';
+import 'package:movil_ganaseguros/polizas/models/historial_busqueda_poliza_model.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
-import 'package:flutter/scheduler.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movil_ganaseguros/utils/dialogos.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../models/poliza_model.dart';
 
@@ -26,7 +25,12 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
   @override
   void initState() {
     // TODO: implement initState
-    obtieneHistorialBusqueda(context);
+    //obtieneHistorialBusqueda(context);
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<ConsultaPolizaHistoricoProvider>(context,listen: false).obtenerTodosHistorialBusquedaPoliza();
+    });
+
     super.initState();
   }
   @override
@@ -81,7 +85,7 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
                       .lstDatosPersonasModel.length,
                   itemBuilder: (BuildContext context, int index) {
                     return _crearItemDatosPersona(
-                        pDatosPersonasModel: consultaPolizaHistoricoProvider
+                        pHistorialBusquedaPolizaModel: consultaPolizaHistoricoProvider
                             .lstDatosPersonasModel[index],
                         context: context);
                   }),
@@ -94,7 +98,7 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
   }
 
   Widget _crearItemDatosPersona(
-      {required DatosPersonasModel pDatosPersonasModel,
+      {required HistorialBusquedaPolizaModel pHistorialBusquedaPolizaModel,
       required BuildContext context}) {
     final consultaPolizaHistoricoProvider = Provider.of<ConsultaPolizaHistoricoProvider>(context, listen: false);
     final consultaPolizaProvider = Provider.of<ConsultaPolizaProvider>(context);
@@ -126,9 +130,9 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
                             width: 10,
                           ),
                           Text(
-                            pDatosPersonasModel.nombreAsegurado.toString() +
+                            pHistorialBusquedaPolizaModel.nombreAsegurado.toString() +
                                 "\n " +
-                                pDatosPersonasModel.nroDocumento.toString(),
+                                pHistorialBusquedaPolizaModel.nroDocumento.toString(),
                             //style: Estilos.stlTextoContenido(themeProvider.ColorContenido),
                             style: Theme.of(context).textTheme.bodyText1,
                             textAlign: TextAlign.left,
@@ -155,15 +159,15 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
                         ),
                         onPressed: () async {
 
-                          consultaPolizaProvider.txtNroDocumentoController.text = pDatosPersonasModel.nroDocumento.toString();
-                          consultaPolizaProvider.txtExtensionController.text = pDatosPersonasModel.extension.toString();
-                          consultaPolizaProvider.txtComplementoController.text = pDatosPersonasModel.complemento.toString();
-                          consultaPolizaProvider.txtFechaNacimientoController.text = pDatosPersonasModel.fechaNacimiento.toString();
+                          consultaPolizaProvider.txtNroDocumentoController.text = pHistorialBusquedaPolizaModel.nroDocumento.toString();
+                          consultaPolizaProvider.txtExtensionController.text = pHistorialBusquedaPolizaModel.extension.toString();
+                          consultaPolizaProvider.txtComplementoController.text = pHistorialBusquedaPolizaModel.complemento.toString();
+                          consultaPolizaProvider.txtFechaNacimientoController.text = pHistorialBusquedaPolizaModel.fechaNacimiento.toString();
 
                           List<PolizaModel> ? lstPolizaModel = await showDialog(
                             context: context,
                             builder: (context) =>
-                                FutureProgressDialog(consultaPolizaProvider.consultarPoliza() ,
+                                FutureProgressDialog(consultaPolizaProvider.consultarPolizaInvitado() ,
                                     message: Text(
                                       'Procesando...',
                                       style: GoogleFonts.poppins(
@@ -179,13 +183,9 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
                           if (lstPolizaModel!=null && lstPolizaModel.length > 0) {
                             Navigator.of(context).pushNamed('lista_poliza_detalle_page');
                           } else {
-                            ArtSweetAlert.show(
-                                context: context,
-                                artDialogArgs: ArtDialogArgs(
-                                    type: ArtSweetAlertType.info,
-                                    text: "No se ha encontrado Póliza!",
-                                    confirmButtonText: "Aceptar",
-                                    confirmButtonColor: colores.sec_negro_claro2));
+
+                            Dialogos.dialogoInformativo(pTitulo: "Consulta de Póliza",pDescripcion: "No se ha encontrado Póliza",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.success).show();
+
                           }
                         },
                         child: Text(
@@ -206,8 +206,8 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
                             context: context,
                             builder: (context) => FutureProgressDialog(
                                 consultaPolizaHistoricoProvider
-                                    .eliminarDatosPersonas(context,
-                                        pDatosPersonasModel.datosPersonaId!),
+                                    .eliminarHistorialBusquedaPoliza(context,
+                                    pHistorialBusquedaPolizaModel.historialBusquedaPolizaId!),
                                 message: Text(
                                   'Procesando...',
                                   style: GoogleFonts.poppins(
@@ -220,14 +220,9 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
                                 )),
                           );
 
-                          ArtSweetAlert.show(
-                              context: context,
-                              artDialogArgs: ArtDialogArgs(
-                                  type: ArtSweetAlertType.info,
-                                  text: "Registro eliminado",
-                                  confirmButtonText: "Aceptar",
-                                  confirmButtonColor:
-                                      colores.sec_negro_claro2));
+
+                          Dialogos.dialogoInformativo(pTitulo: "",pDescripcion: "Registro Eliminado",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.info).show();
+
                         },
                       ),
                     ],
@@ -239,8 +234,8 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
           ],
         )));
   }
-  obtieneHistorialBusqueda (BuildContext context)async{
+  /*obtieneHistorialBusqueda (BuildContext context)async{
     final consultaPolizaHistoricoProvider = Provider.of<ConsultaPolizaHistoricoProvider>(context,listen: false);
-    await consultaPolizaHistoricoProvider.obtenerTodosDatosPersonas();
-  }
+    await consultaPolizaHistoricoProvider.obtenerTodosHistorialBusquedaPoliza();
+  }*/
 }

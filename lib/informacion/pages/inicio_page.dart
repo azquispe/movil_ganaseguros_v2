@@ -1,11 +1,15 @@
+
 import 'package:badges/badges.dart';
 import 'package:movil_ganaseguros/avisos/providers/aviso_provider.dart';
 import 'package:movil_ganaseguros/informacion/providers/oferta_provider.dart';
 import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/informacion/widgets/slide_show_widget.dart';
+import 'package:movil_ganaseguros/login/providers/login_provider.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
+import 'package:movil_ganaseguros/utils/dialogos.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../widgets/card_inicio_widget.dart';
 import '../widgets/drawer_widget.dart';
 
@@ -13,6 +17,8 @@ class InicioPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final avisoProvider = Provider.of<AvisoProvider>(context);
+
+
 
     return Scaffold(
       backgroundColor: colores.pri_blanco,
@@ -34,7 +40,7 @@ class InicioPage extends StatelessWidget {
                       padding: EdgeInsets.all(2),
                       child: Text(avisoProvider.avisosNuevos.toString(),
                           style: TextStyle(
-                              fontSize: 20, color: colores.pri_blanco))),
+                              fontSize: 15, color: colores.pri_blanco,fontWeight: FontWeight.normal))),
                   position: BadgePosition.topEnd(top: -3, end: 2),
                   badgeColor: Colors.deepOrange,
                   child: IconButton(
@@ -42,14 +48,16 @@ class InicioPage extends StatelessWidget {
                     icon: Icon(Icons.notifications, size: 30),
                     onPressed: () {
                       avisoProvider.avisosNuevos = 0;
-                      Navigator.pushNamed(context, 'avisos');
+                      Navigator.pushNamed(context, 'avisos_page');
                     },
                   ))
               : IconButton(
                   icon: Icon(Icons.notifications, size: 30),
                   onPressed: () {
                     avisoProvider.avisosNuevos = 0;
-                    Navigator.pushNamed(context, 'avisos');
+                    Navigator.pushNamed(context, 'avisos_page');
+
+
                   },
                 ),
           SizedBox(
@@ -68,6 +76,7 @@ class InicioPage extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigatorWidget(),
     );
   }
+
 }
 
 class _HomeBody extends StatelessWidget {

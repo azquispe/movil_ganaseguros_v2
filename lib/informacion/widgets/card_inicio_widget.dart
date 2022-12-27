@@ -1,20 +1,29 @@
+import 'package:future_progress_dialog/future_progress_dialog.dart';
+import 'package:movil_ganaseguros/login/models/datos_persona_model.dart';
+import 'package:movil_ganaseguros/login/providers/login_provider.dart';
+import 'package:movil_ganaseguros/polizas/models/poliza_model.dart';
+import 'package:movil_ganaseguros/polizas/providers/consulta_poliza_provider.dart';
+import 'package:movil_ganaseguros/utils/dialogos.dart';
 import 'package:movil_ganaseguros/utils/estilos.dart';
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
 class CardInicioWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final loginProvider = Provider.of<LoginProvider>(context);
     return Table(
       children:  [
         TableRow(children: [
           _SingleCard(
               pathImg: "assets/img/ganaSeguros_banner1.jpg",
               color: colores.sec_negro_claro1,
-              text: 'Consultar Póliza',
+              text: loginProvider.datosPersonaModel.personaId!=null?'Mis pólizas': 'Consultar Póliza',
               pageName: 'consulta_poliza_historico_page'),
           _SingleCard(
               pathImg: "assets/img/ganaSeguros_banner2.jpg",
@@ -44,11 +53,43 @@ class _SingleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loginProvider = Provider.of<LoginProvider>(context);
+    final consultaPolizaProvider = Provider.of<ConsultaPolizaProvider>(context);
+    DatosPersonaModel datosPersonaModel = loginProvider.datosPersonaModel;
+    return GestureDetector (
 
-    return GestureDetector(
+        onTap: () async {
+          if((datosPersonaModel.personaId!=null && datosPersonaModel.personaId!>0) && this.pageName=="consulta_poliza_historico_page")
+          {
 
-        onTap: () {
-          Navigator.of(context).pushNamed(this.pageName);
+            consultaPolizaProvider.txtNroDocumentoController.text = datosPersonaModel.numeroDocumento.toString();
+            consultaPolizaProvider.txtExtensionController.text = datosPersonaModel.ciudadExpedidoId.toString();
+            consultaPolizaProvider.txtComplementoController.text = datosPersonaModel.complemento.toString();
+            consultaPolizaProvider.txtFechaNacimientoController.text = datosPersonaModel.fechaNacimiento.toString();
+
+            List<PolizaModel> ? lstPolizaModel = await showDialog(
+              context: context,
+              builder: (context) =>
+                  FutureProgressDialog(consultaPolizaProvider.consultarPoliza() ,
+                      message: Text(
+                        'Procesando...',
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              color: colores.sec_negro_claro2,
+                              letterSpacing: 0.3,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      )),
+            );
+            if (lstPolizaModel!=null && lstPolizaModel.length > 0) {
+              Navigator.of(context).pushNamed('lista_poliza_detalle_page');
+            } else {
+              Dialogos.dialogoInformativo(pTitulo: "Consulta de Póliza",pDescripcion: "No se ha encontrado Póliza \n Si desea consultar Póliza para otro asegurado ingrese como INVITADO  o creando una nueva CUENTA",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.info).show();
+            }
+          }else{
+            Navigator.of(context).pushNamed(this.pageName);
+          }
+
         },
 
     child: Card(

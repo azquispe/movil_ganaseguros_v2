@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-class DatosPersonasModel {
-  DatosPersonasModel({
-    this.datosPersonaId,
+class HistorialBusquedaPolizaModel {
+  HistorialBusquedaPolizaModel({
+    this.historialBusquedaPolizaId,
     this.nroDocumento,
     this.extension,
     this.complemento,
@@ -15,7 +15,7 @@ class DatosPersonasModel {
     this.fechaNacimiento,
   });
 
-  int ? datosPersonaId;
+  int ? historialBusquedaPolizaId;
   String ? nroDocumento;
   String ? extension;
   String ? complemento;
@@ -23,12 +23,12 @@ class DatosPersonasModel {
   String ? nombreTomador;
   String ? fechaNacimiento;
 
-  factory DatosPersonasModel.fromJson(String str) => DatosPersonasModel.fromMap(json.decode(str));
+  factory HistorialBusquedaPolizaModel.fromJson(String str) => HistorialBusquedaPolizaModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory DatosPersonasModel.fromMap(Map<String, dynamic> json) => DatosPersonasModel(
-    datosPersonaId: json["datosPersonaId"] == null ? null : json["datosPersonaId"],
+  factory HistorialBusquedaPolizaModel.fromMap(Map<String, dynamic> json) => HistorialBusquedaPolizaModel(
+    historialBusquedaPolizaId: json["historialBusquedaPolizaId"] == null ? null : json["historialBusquedaPolizaId"],
     nroDocumento: json["nroDocumento"] == null ? null : json["nroDocumento"],
     extension: json["extension"] == null ? null : json["extension"],
     complemento: json["complemento"] == null ? null : json["complemento"],
@@ -38,7 +38,7 @@ class DatosPersonasModel {
   );
 
   Map<String, dynamic> toMap() => {
-    "datosPersonaId": datosPersonaId == null ? null : datosPersonaId,
+    "historialBusquedaPolizaId": historialBusquedaPolizaId == null ? null : historialBusquedaPolizaId,
     "nroDocumento": nroDocumento == null ? null : nroDocumento,
     "extension": extension == null ? null : extension,
     "complemento": complemento == null ? null : complemento,

@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.1"
-  art_sweetalert:
-    dependency: "direct main"
-    description:
-      name: art_sweetalert
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.5"
   async:
     dependency: transitive
     description:
@@ -420,6 +413,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.4"
+  rflutter_alert:
+    dependency: "direct main"
+    description:
+      name: rflutter_alert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   sky_engine:
     dependency: transitive
     description: flutter

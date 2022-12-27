@@ -1,26 +1,26 @@
 import 'package:movil_ganaseguros/bd/db_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:movil_ganaseguros/polizas/models/datos_persona_model.dart';
+import 'package:movil_ganaseguros/polizas/models/historial_busqueda_poliza_model.dart';
 
 
 class ConsultaPolizaHistoricoProvider with ChangeNotifier {
 
   // GET AND SET
-  List<DatosPersonasModel> _datosPersonasModel = [];
-  List<DatosPersonasModel> get lstDatosPersonasModel => this._datosPersonasModel;
-  set lstDatosPersonasModel(List<DatosPersonasModel> lstDatosPersonas) {
-    this._datosPersonasModel = lstDatosPersonas;
+  List<HistorialBusquedaPolizaModel> _historialBusquedaPolizaModel = [];
+  List<HistorialBusquedaPolizaModel> get lstDatosPersonasModel => this._historialBusquedaPolizaModel;
+  set lstHistorialBusquedaPoliza(List<HistorialBusquedaPolizaModel> lstDatosPersonas) {
+    this._historialBusquedaPolizaModel = lstDatosPersonas;
     notifyListeners();
   }
   // ===========================
 
-  Future<List<DatosPersonasModel>> obtenerTodosDatosPersonas() async {
-    lstDatosPersonasModel =  await DBProvider.instance.obtenerTodosDatosPersonas();
+  Future<List<HistorialBusquedaPolizaModel>> obtenerTodosHistorialBusquedaPoliza() async {
+    lstHistorialBusquedaPoliza =  await DBProvider.instance.obtenerTodosHistorialBusquedaPoliza();
     return lstDatosPersonasModel;
   }
-  Future<void> eliminarDatosPersonas(BuildContext context, pDatosPersonaId) async {
-    await DBProvider.instance.eliminarDatosPersonas(pDatosPersonaId);
-    await this.obtenerTodosDatosPersonas();
+  Future<void> eliminarHistorialBusquedaPoliza(BuildContext context, pDatosPersonaId) async {
+    await DBProvider.instance.eliminarHistorialBusquedaPoliza(pDatosPersonaId);
+    await this.obtenerTodosHistorialBusquedaPoliza();
   }
 
 }

@@ -1,12 +1,13 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:movil_ganaseguros/avisos/pages/aviso_page.dart';
 import 'package:movil_ganaseguros/avisos/providers/aviso_provider.dart';
-import 'package:movil_ganaseguros/avisos/services/aviso_service.dart';
 import 'package:movil_ganaseguros/avisos/services/push_noitfications_service.dart';
-import 'package:movil_ganaseguros/firebase_options.dart';
 import 'package:movil_ganaseguros/informacion/providers/oferta_provider.dart';
+import 'package:movil_ganaseguros/login/pages/actualizar_datos_usuario_page.dart';
+import 'package:movil_ganaseguros/login/pages/login_page.dart';
+import 'package:movil_ganaseguros/login/pages/nuevo_datos_usuario_page.dart';
+import 'package:movil_ganaseguros/login/providers/datos_usuario_provider.dart';
+import 'package:movil_ganaseguros/login/providers/login_provider.dart';
 import 'package:movil_ganaseguros/polizas/pages/consulta_poliza_historico_page.dart';
 import 'package:movil_ganaseguros/polizas/pages/consulta_poliza_page.dart';
 import 'package:movil_ganaseguros/informacion/pages/inicio_page.dart';
@@ -19,6 +20,7 @@ import 'package:movil_ganaseguros/polizas/providers/consulta_poliza_provider.dar
 import 'package:movil_ganaseguros/informacion/widgets/encuentranos_page.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movil_ganaseguros/utils/providers/dominio_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
@@ -28,14 +30,20 @@ import 'package:page_transition/page_transition.dart';
 
 
 void main() async {
-  /*WidgetsFlutterBinding.ensureInitialized();
-  await PushNotificationService.initializeApp();*/
+  WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService.initializeApp();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ConsultaPolizaProvider()),
     ChangeNotifierProvider(create: (_) => ConsultaPolizaHistoricoProvider()),
     ChangeNotifierProvider(create: (_) => SolicitaSeguroProvider()),
     ChangeNotifierProvider(create: (_) => AvisoProvider()),
-    ChangeNotifierProvider(create: (_) => OfertaProvider())
+    ChangeNotifierProvider(create: (_) => OfertaProvider()),
+    ChangeNotifierProvider(create: (_) => LoginProvider()),
+    ChangeNotifierProvider(create: (_) => DatosUsuarioProvider()),
+    ChangeNotifierProvider(create: (_) => DominioProvider()),
+
+
+
   ], child: MyApp()));
 }
 
@@ -89,27 +97,31 @@ class _MyAppState extends State<MyApp> {
           'solicitar_seguro_page': (_) => SolicitarSeguroPage(),
           'encuentranos_page': (_) => EncuentranosPage(),
           'nosotros_page': (_) => NosotrosPage(),
-          'avisos': (_) => AvisoPage(),
+          'avisos_page': (_) => AvisoPage(),
+          'login_page': (_) => LoginPage(),
+          'actualizar_datos_usuario_page': (_) => ActualizarDatosUsuarioPage(),
+          'nuevo_datos_usuario_page': (_) => NuevoDatosUsuarioPage(),
+
         },
         home: AnimatedSplashScreen(
 
             duration: 3000,
             splash: Column(
               children: [
-                Text("Bienvenido a", style: GoogleFonts.poppins(
+                /*Text("Bienvenido a", style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                       color: colores.pri_blanco,
                       letterSpacing: 0.3,
                       //fontSize: 22,
                       fontWeight: FontWeight.bold),
-                )),
+                )),*/
                 const Image(
                     width: 200,
                     height: 50,
                     image: AssetImage('assets/img/logo_verde.jpg')),
               ],
             ),
-            nextScreen: InicioPage(),
+            nextScreen: LoginPage(),
 
             splashTransition: SplashTransition.fadeTransition,
             pageTransitionType: PageTransitionType.fade,
@@ -141,7 +153,16 @@ class _MyAppState extends State<MyApp> {
             overline     10.0  regular  1.5
              */
 
-            // PARA LOS TITULOS GRANDES
+            // PARA LOS TITULOS GRANDES ROSA
+            headline6: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  color: colores.sec_rosa,
+                  letterSpacing: 0.3,
+                  //fontSize: 22,
+                  fontWeight: FontWeight.bold),
+            ),
+            // ============================
+            // PARA LOS TITULOS GRANDES VERDE
             headline5: GoogleFonts.poppins(
               textStyle: TextStyle(
                   color: colores.pri_verde_claro,

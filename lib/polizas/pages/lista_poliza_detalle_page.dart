@@ -1,13 +1,15 @@
-import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
+import 'package:movil_ganaseguros/login/providers/login_provider.dart';
 import 'package:movil_ganaseguros/polizas/models/poliza_model.dart';
 import 'package:movil_ganaseguros/polizas/providers/consulta_poliza_provider.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import 'package:future_progress_dialog/future_progress_dialog.dart';
+import 'package:movil_ganaseguros/utils/dialogos.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../services/consulta_poliza_service.dart';
 
 class ListaPolizaDetallePage extends StatelessWidget {
@@ -15,7 +17,12 @@ class ListaPolizaDetallePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final consultaPolizaProvider = Provider.of<ConsultaPolizaProvider>(context);
 
-
+    final datosPersonaModel = Provider.of<LoginProvider>(context).datosPersonaModel;
+    if(datosPersonaModel.personaId!=null){
+      Future.delayed(Duration.zero, () =>{
+        Dialogos.dialogoInformativo(pTitulo: "",pDescripcion: "Si desea consultar Póliza para otros asegurados, debe Autenticarse o ingresar como Invitao",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.info).show()
+      });
+    }
 
     return Scaffold(
       backgroundColor: colores.pri_blanco,
@@ -368,16 +375,9 @@ class ListaPolizaDetallePage extends StatelessWidget {
                 OpenFile.open(path);
               }else{
 
-                ArtSweetAlert.show(
-                    context: context,
-                    artDialogArgs: ArtDialogArgs(
-                        barrierColor: colores.pri_negro,
-                        type: ArtSweetAlertType.danger,
-                        title: "No se ha encontrado adjunto de Póliza",
-                        confirmButtonText: "Aceptar",
-                        confirmButtonColor: colores.sec_negro_claro2
-                    )
-                );
+
+                Dialogos.dialogoInformativo(pTitulo: "Descarga de Póliza",pDescripcion: "No se ha encontrado adjunto de Póliza",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.error).show();
+
 
               }
 
@@ -389,4 +389,5 @@ class ListaPolizaDetallePage extends StatelessWidget {
       return Container();
     }
   }
+
 }

@@ -7,16 +7,16 @@ import 'dart:convert';
 
 class DominioModel {
   DominioModel({
-    required this.dominioId,
-    required this.dominio,
-    required this.descripcion,
-    required this.abreviatura,
+    this.dominioId,
+    this.dominio,
+    this.descripcion,
+    this.abreviatura,
   });
 
-  int  dominioId;
-  String  dominio;
-  String  descripcion;
-  String  abreviatura;
+  int ? dominioId;
+  String ? dominio;
+  String ? descripcion;
+  String ? abreviatura;
 
   factory DominioModel.fromJson(String str) => DominioModel.fromMap(json.decode(str));
 
