@@ -22,10 +22,8 @@ class _NuevoDatosUsuarioPageState extends State<NuevoDatosUsuarioPage> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      Provider.of<DatosUsuarioProvider>(context, listen: false)
-          .obtenerDatosPersonaAformulario(); // para llenar formulario
-      Provider.of<DominioProvider>(context, listen: false)
-          .obtenerCiudadExpedido();
+      //Provider.of<DatosUsuarioProvider>(context, listen: false).obtenerDatosPersonaAformulario(); // para llenar formulario
+      Provider.of<DominioProvider>(context, listen: false).obtenerCiudadExpedido();
       Provider.of<DominioProvider>(context, listen: false).obtenerGenero();
     });
 

@@ -156,7 +156,7 @@ class DrawerWidget extends StatelessWidget {
           Text(nombreCompleto + "\n" + apellidos, style: Theme.of(context).textTheme.subtitle2),
           OutlinedButton(
             onPressed: () {
-              Navigator.pushNamed(context, 'datos_usuario_page');
+              Navigator.pushNamed(context, 'actualizar_datos_usuario_page');
             },
             child: Text('Ver Datos',
                 style: Theme.of(context).textTheme.subtitle2),
