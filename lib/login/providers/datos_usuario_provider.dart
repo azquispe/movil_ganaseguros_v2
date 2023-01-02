@@ -15,7 +15,22 @@ class DatosUsuarioProvider with ChangeNotifier{
   TextEditingController _txtCelularController = TextEditingController();
   TextEditingController _txtCorreoController = TextEditingController();
   TextEditingController _txtFechaNacimientoController = TextEditingController();
-   // ===
+  TextEditingController _txtPasswordController = TextEditingController();
+  TextEditingController _txtPasswordRepetidoController = TextEditingController();
+
+
+  TextEditingController get txtPasswordRepetidoController =>
+      _txtPasswordRepetidoController;
+
+  set txtPasswordRepetidoController(TextEditingController value) {
+    _txtPasswordRepetidoController = value;
+  }
+
+  TextEditingController get txtPasswordController => _txtPasswordController;
+
+  set txtPasswordController(TextEditingController value) {
+    _txtPasswordController = value;
+  } // ===
 
   TextEditingController get txtNombresController => _txtNombresController;
 
@@ -114,6 +129,29 @@ class DatosUsuarioProvider with ChangeNotifier{
     DatosPersonaService datosPersonaService = new DatosPersonaService();
     return datosPersonaService.actualizarPersona(objUpdate);
   }
+  Future<Map<String,dynamic>> nuevoPersonaServer() async {
+
+    if(txtPasswordController.text.trim()!=txtPasswordRepetidoController.text){
+      return {
+        "procesoCompletado":false,
+        "mensaje":"la contraseña no iguala"
+      };
+    }
+
+    DatosPersonaModel objInsert = new DatosPersonaModel();
+    objInsert.generoId = 1025; // aun esta quemado
+    objInsert.nombres = txtNombresController.text;
+    objInsert.apellidoPaterno = txtPaternoController.text;
+    objInsert.apellidoMaterno = txtMaternoController.text;
+    objInsert.numeroDocumento = txtNroDocumentoController.text;
+    objInsert.complemento = txtComplementoController.text;
+    objInsert.ciudadExpedidoId = ciudadExpedidoId;
+    objInsert.numeroCelular = txtCelularController.text;
+    objInsert.correoElectronico = txtCorreoController.text;
+    objInsert.fechaNacimiento = txtFechaNacimientoController.text;
+    DatosPersonaService datosPersonaService = new DatosPersonaService();
+    return datosPersonaService.nuevoPersona(objInsert,_txtPasswordController.text);
+  }
   Future<bool> actualizarPersonaLocal()  async {
     DatosPersonaService datosPersonaService = new DatosPersonaService();
     DatosPersonaModel objPersonaSqlite  =  await DBProvider.instance.obtenerDatosPersona();
@@ -134,6 +172,17 @@ class DatosUsuarioProvider with ChangeNotifier{
     }else{
       return false;
     }
+  }
+  void limpiarFormDatosPersonas(){
+    txtNombresController.text = "";
+    txtPaternoController.text = "";
+    txtMaternoController.text = "";
+    txtNroDocumentoController.text = "";
+    ciudadExpedidoId = 1007; // aun no se puede poner cero
+    txtComplementoController.text = "";
+    txtCelularController.text = "";
+    txtCorreoController.text = "";
+    txtFechaNacimientoController.text = "";
   }
 
 }

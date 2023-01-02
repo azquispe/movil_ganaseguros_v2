@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 class Dialogos{
-  static Alert dialogoInformativo({required BuildContext pContext, required String pTitulo, required String pDescripcion, required String pBoton, required AlertType pTipoAlerta}) {
+  static Alert dialogoInformativo({required BuildContext pContext, required String pTitulo, required String pDescripcion, required String pBoton, required AlertType pTipoAlerta, String pPathRedirect=""}) {
     var alertStyle = AlertStyle(
         animationType: AnimationType.fromTop,
         isCloseButton: false,
@@ -30,7 +30,12 @@ class Dialogos{
             pBoton,
             style: TextStyle(color: colores.pri_blanco, fontSize: 20),
           ),
-          onPressed: () => Navigator.pop(pContext),
+          onPressed: ()  {
+            Navigator.pop(pContext);
+            if(pPathRedirect!=""){
+              Navigator.pushNamed(pContext, pPathRedirect);
+            }
+          },
           color: colores.sec_verde_claro,
           radius: BorderRadius.circular(0.0),
         ),
@@ -49,7 +54,12 @@ class Dialogos{
             pBoton,
             style: TextStyle(color: colores.pri_blanco, fontSize: 20),
           ),
-          onPressed: () => Navigator.pop(pContext),
+          onPressed: ()  {
+            Navigator.pop(pContext);
+            if(pPathRedirect!=""){
+              Navigator.pushNamed(pContext, pPathRedirect);
+            }
+          },
           color: colores.sec_verde_claro,
           radius: BorderRadius.circular(0.0),
         ),

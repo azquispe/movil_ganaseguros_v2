@@ -41,6 +41,68 @@ class DatosPersonaService {
       return false;
     }
   }
+
+  Future<Map<String,dynamic>> nuevoPersona(DatosPersonaModel pDatosPersonaModel, String pPassword) async {
+    const url = "${api.API_MOVIL_GANASEGURO}/app-web/v1/registrar-usuario";
+    final usuarioDto = {
+      'aplicacionId': '1003',
+      'tipoUsuarioId': '1027',
+      'login': pDatosPersonaModel.numeroDocumento != null? pDatosPersonaModel.numeroDocumento.toString(): "",
+      'password': pPassword
+    };
+    final personaDto = {
+      'generoId': '1025',
+      'nombres': pDatosPersonaModel.nombres != null? pDatosPersonaModel.nombres.toString(): "",
+      'apellidoPaterno': pDatosPersonaModel.apellidoPaterno != null? pDatosPersonaModel.apellidoPaterno.toString(): "",
+      'apellidoMaterno': pDatosPersonaModel.apellidoMaterno != null? pDatosPersonaModel.apellidoMaterno.toString(): "",
+      'numeroDocumento':pDatosPersonaModel.numeroDocumento != null? pDatosPersonaModel.numeroDocumento.toString(): "",
+      'complemento':pDatosPersonaModel.complemento != null? pDatosPersonaModel.complemento.toString(): "",
+      'ciudadExpedidoId':pDatosPersonaModel.ciudadExpedidoId != null? pDatosPersonaModel.ciudadExpedidoId.toString(): "",
+      'numeroCelular':pDatosPersonaModel.numeroCelular != null? pDatosPersonaModel.numeroCelular.toString(): "",
+      'correoElectronico':pDatosPersonaModel.correoElectronico != null? pDatosPersonaModel.correoElectronico.toString(): "",
+      'fechaNacimiento':pDatosPersonaModel.fechaNacimiento != null? pDatosPersonaModel.fechaNacimiento.toString(): ""
+    };
+
+    final contenido = jsonEncode(<String, Object>{
+      'usuarioDto': usuarioDto,
+      'personaDto': personaDto
+    });
+
+
+    print("==== TRAMA PARA NUEVO PERSONA ========");
+    print(contenido);
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: contenido,
+    )
+        .timeout(Duration(seconds: api.TIMEOUT_SECOND));
+    print("===respuesta ===="+response.body.toString());
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> decodeData = json.decode(response.body) as Map<String, dynamic>;
+      if (decodeData['codigoMensaje'].toString() == 'CODMW1000') {
+        return {
+          "procesoCompletado":true,
+          "mensaje":decodeData['codigoMensaje'].toString()
+        };
+      } else {
+        return {
+          "procesoCompletado":false,
+          "mensaje":decodeData['codigoMensaje'].toString()
+        };
+      }
+    }else{
+      return {
+        "procesoCompletado":false,
+        "mensaje":response.body
+      };
+    }
+  }
+
+
+
   Future<DatosPersonaModel> obtenerPersona(int pPersonaId) async {
     String  url = "${api.API_MOVIL_GANASEGURO}/app-web/v1/obtener-persona/"+pPersonaId.toString();
     final response = await http.get(Uri.parse(url),
@@ -60,3 +122,4 @@ class DatosPersonaService {
     return new DatosPersonaModel();
   }
 }
+

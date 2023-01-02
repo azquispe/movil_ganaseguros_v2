@@ -300,9 +300,9 @@ class _ActualizarDatosUsuarioPageState extends State<ActualizarDatosUsuarioPage>
                               );
                               if (res) {
                                 Dialogos.dialogoInformativo(
-                                    pTitulo: "Solicitud de Póliza",
+                                    pTitulo: "Actualización de Usuario",
                                     pDescripcion:
-                                    "En breve un especialista de GanaSeguros se comunicará contigo",
+                                    "Actualización de usuario exitoso",
                                     pContext: context,
                                     pBoton: "Aceptar",
                                     pTipoAlerta: AlertType.success)
@@ -311,8 +311,8 @@ class _ActualizarDatosUsuarioPageState extends State<ActualizarDatosUsuarioPage>
                                     datosUsuarioProvider.obtenerDatosPersonaAformulario();
                               } else {
                                 Dialogos.dialogoInformativo(
-                                    pTitulo: "Solicitud de Póliza",
-                                    pDescripcion: "No se pudo envair su Solicitud",
+                                    pTitulo: "Actualización de Usuario",
+                                    pDescripcion: "No se pudo actualizar",
                                     pContext: context,
                                     pBoton: "Aceptar",
                                     pTipoAlerta: AlertType.error)
