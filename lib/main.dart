@@ -4,8 +4,10 @@ import 'package:movil_ganaseguros/avisos/providers/aviso_provider.dart';
 import 'package:movil_ganaseguros/avisos/services/push_noitfications_service.dart';
 import 'package:movil_ganaseguros/informacion/providers/oferta_provider.dart';
 import 'package:movil_ganaseguros/login/pages/actualizar_datos_usuario_page.dart';
+import 'package:movil_ganaseguros/login/pages/cambiar_clave_page.dart';
 import 'package:movil_ganaseguros/login/pages/login_page.dart';
 import 'package:movil_ganaseguros/login/pages/nuevo_datos_usuario_page.dart';
+import 'package:movil_ganaseguros/login/providers/cambiar_clave_provider.dart';
 import 'package:movil_ganaseguros/login/providers/datos_usuario_provider.dart';
 import 'package:movil_ganaseguros/login/providers/login_provider.dart';
 import 'package:movil_ganaseguros/polizas/pages/consulta_poliza_historico_page.dart';
@@ -30,8 +32,8 @@ import 'package:page_transition/page_transition.dart';
 
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await PushNotificationService.initializeApp();
+  /*WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService.initializeApp();*/
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ConsultaPolizaProvider()),
     ChangeNotifierProvider(create: (_) => ConsultaPolizaHistoricoProvider()),
@@ -41,9 +43,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => LoginProvider()),
     ChangeNotifierProvider(create: (_) => DatosUsuarioProvider()),
     ChangeNotifierProvider(create: (_) => DominioProvider()),
-
-
-
+    ChangeNotifierProvider(create: (_) => CambiarClaveProvider()),
   ], child: MyApp()));
 }
 
@@ -101,6 +101,7 @@ class _MyAppState extends State<MyApp> {
           'login_page': (_) => LoginPage(),
           'actualizar_datos_usuario_page': (_) => ActualizarDatosUsuarioPage(),
           'nuevo_datos_usuario_page': (_) => NuevoDatosUsuarioPage(),
+          'cambiar_clave_page':(_) => CambiarClavePage()
 
         },
         home: AnimatedSplashScreen(
@@ -119,6 +120,16 @@ class _MyAppState extends State<MyApp> {
                     width: 200,
                     height: 50,
                     image: AssetImage('assets/img/logo_verde.jpg')),
+                Text(
+                  'Respaldado por  GRUPO GANADERO',
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        color: colores.pri_blanco,
+                        letterSpacing: 0.3,
+                        //fontSize: 22,
+                        fontWeight: FontWeight.normal),
+                  ),
+                )
               ],
             ),
             nextScreen: LoginPage(),

@@ -63,7 +63,7 @@ class _SingleCard extends StatelessWidget {
           {
 
             consultaPolizaProvider.txtNroDocumentoController.text = datosPersonaModel.numeroDocumento.toString();
-            consultaPolizaProvider.txtExtensionController.text = datosPersonaModel.ciudadExpedidoId.toString();
+            consultaPolizaProvider.ciudadExpedidoId = datosPersonaModel.ciudadExpedidoId!;
             consultaPolizaProvider.txtComplementoController.text = datosPersonaModel.complemento.toString();
             consultaPolizaProvider.txtFechaNacimientoController.text = datosPersonaModel.fechaNacimiento.toString();
 

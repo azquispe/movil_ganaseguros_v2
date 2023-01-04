@@ -51,7 +51,7 @@ class DatosPersonaService {
       'password': pPassword
     };
     final personaDto = {
-      'generoId': '1025',
+      'generoId': pDatosPersonaModel.generoId != null? pDatosPersonaModel.generoId.toString(): "",
       'nombres': pDatosPersonaModel.nombres != null? pDatosPersonaModel.nombres.toString(): "",
       'apellidoPaterno': pDatosPersonaModel.apellidoPaterno != null? pDatosPersonaModel.apellidoPaterno.toString(): "",
       'apellidoMaterno': pDatosPersonaModel.apellidoMaterno != null? pDatosPersonaModel.apellidoMaterno.toString(): "",

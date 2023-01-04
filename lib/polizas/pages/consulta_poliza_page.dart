@@ -8,17 +8,31 @@ import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:movil_ganaseguros/utils/providers/dominio_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class ConsultaPolizaPage extends StatelessWidget {
+class ConsultaPolizaPage extends StatefulWidget {
+  @override
+  State<ConsultaPolizaPage> createState() => _ConsultaPolizaPageState();
+}
 
+class _ConsultaPolizaPageState extends State<ConsultaPolizaPage> {
 
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      Provider.of<DominioProvider>(context, listen: false).obtenerCiudadExpedido();
+    });
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final consultaPolizaProvider = Provider.of<ConsultaPolizaProvider>(context);
+    final dominioProvider = Provider.of<DominioProvider>(context);
     final _formKey = GlobalKey<FormState>();
     consultaPolizaProvider.limpiarCamposForm();
 
@@ -81,7 +95,7 @@ class ConsultaPolizaPage extends StatelessWidget {
               children: [
                 Flexible(
                   flex: 4,
-                  child: TextFormField(
+                  child: /*TextFormField(
                     controller: consultaPolizaProvider.txtExtensionController,
                     maxLength: 100,
                     keyboardType: TextInputType.text,
@@ -93,6 +107,37 @@ class ConsultaPolizaPage extends StatelessWidget {
                         errorBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: colores.pri_verde_claro, width: 2))),
+                  )*/dominioProvider.lstCiudadExpedido.isNotEmpty
+                      ? DropdownButtonFormField(
+                    value: consultaPolizaProvider.ciudadExpedidoId,
+                    style: Theme.of(context).textTheme.bodyText1,
+                    decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyText1,
+                        labelText: 'Ciudad Expedido',
+                        border: OutlineInputBorder(),
+                        errorBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: colores.pri_verde_claro, width: 2))),
+                    items: dominioProvider.lstCiudadExpedido.map((e) {
+                      /// Ahora creamos "e" y contiene cada uno de los items de la lista.
+                      return DropdownMenuItem(
+                          child: Text(e.descripcion!), value: e.dominioId);
+                    }).toList(),
+                    onChanged: (int? valor) {
+                      consultaPolizaProvider.ciudadExpedidoId = valor!;
+                    },
+                  )
+                      : TextFormField(
+                    enabled: false,
+                    keyboardType: TextInputType.text,
+                    style: Theme.of(context).textTheme.bodyText1,
+                    decoration: InputDecoration(
+                        labelStyle: Theme.of(context).textTheme.bodyText1,
+                        labelText: 'Cargando .....',
+                        border: OutlineInputBorder(),
+                        errorBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: colores.pri_verde_claro, width: 2))),
                   ),
                 ),
                 const SizedBox(
@@ -211,8 +256,4 @@ class ConsultaPolizaPage extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavigatorWidget(),
     );
   }
-
-
-
-
 }

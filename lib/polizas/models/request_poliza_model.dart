@@ -1,10 +1,11 @@
 class RequestPolizaModel{
 
   final String ? nroDocumento;
-  final String ? ciudadExpedido;
+  final int ? ciudadExpedidoId;
   final String ? complemento;
   final String ? fechaNacimiento;
 
-  RequestPolizaModel({this.nroDocumento, this.ciudadExpedido, this.complemento, this.fechaNacimiento});
+
+  RequestPolizaModel({this.nroDocumento, this.ciudadExpedidoId, this.complemento, this.fechaNacimiento});
 
 }

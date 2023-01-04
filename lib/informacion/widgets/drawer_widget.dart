@@ -3,7 +3,6 @@ import 'package:movil_ganaseguros/login/providers/login_provider.dart';
 import 'package:movil_ganaseguros/utils/estilos.dart';
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
-import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
 import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -23,7 +22,7 @@ class DrawerWidget extends StatelessWidget {
                   height: 20,
                 ),
                 Text("Bienvenido", style: Theme.of(context).textTheme.headline5),
-                nombreUsuario(context),
+                _crearNombreUsuario(context),
 
               ],
             )
@@ -67,7 +66,7 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.notifications),
+            leading: Icon(Icons.notifications_outlined),
             iconColor: colores.pri_verde_claro,
             title: Text(
               'Avisos',
@@ -102,42 +101,47 @@ class DrawerWidget extends StatelessWidget {
               Navigator.pushNamed(context, 'nosotros_page');
             },
           ),
+          _crearCambiarClave(context)
+       ,
           Divider(
             color: colores.pri_verde_claro,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              DefaultTextStyle(
-                style: TextStyle(
-                  fontSize: 12,
-                  color: colores.pri_negro,
-                ),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 16.0,
-                  ),
-                  child: Text(
-                    'Respaldado por  GRUPO GANADERO',
-                    style: Theme.of(context).textTheme.overline,
-                  ),
-                ),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'login_page');
-                },
-                child: Text('Cerrar sessión',
-                    style: Theme.of(context).textTheme.subtitle2),
-              )
-            ],
-          ),
+      SizedBox(height: 20,),
+          Container(
+            padding: EdgeInsets.all(10),
+            child: OutlinedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'login_page');
+              },
+              child: Text('Cerrar sessión',
+                  style: Theme.of(context).textTheme.subtitle2),
+            ),
+          )
         ],
       ),
     );
   }
+  Widget _crearCambiarClave(BuildContext context) {
+    final vDatosPersonaModel = Provider.of<LoginProvider>(context).datosPersonaModel;
+    if(vDatosPersonaModel.personaId!=null && vDatosPersonaModel.personaId!>0){
+      return ListTile(
+        leading: Icon(Icons.key),
+        iconColor: colores.pri_verde_claro,
+        title: Text(
+          'Cambiar clave',
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.pushNamed(context, 'cambiar_clave_page');
+        },
+      );
+    }else{
+      return Container();
+    }
 
-  Widget nombreUsuario(BuildContext context) {
+  }
+  Widget _crearNombreUsuario(BuildContext context) {
     final vDatosPersonaModel =
         Provider.of<LoginProvider>(context).datosPersonaModel;
     String nombreInvitado = "INVITADO";

@@ -16,28 +16,31 @@ class ConsultaPolizasService {
   Future<List<PolizaModel>> obtenerPolizasPorNroDocumento(RequestPolizaModel pRequestPolizaModel) async {
     const url = "${api.API_MOVIL_GANASEGURO}/app-web/v1/consulta-poliza";
 
+    final contenido =  jsonEncode(<String, String>{
+      'nroDocumento': pRequestPolizaModel.nroDocumento != null
+          ? pRequestPolizaModel.nroDocumento.toString()
+          : "",
+      'ciudadExpedidoId': pRequestPolizaModel.ciudadExpedidoId != null
+          ? pRequestPolizaModel.ciudadExpedidoId.toString()
+          : "",
+      'complemento': pRequestPolizaModel.complemento != null
+          ? pRequestPolizaModel.complemento.toString()
+          : "",
+      'fechaNacimiento': pRequestPolizaModel.fechaNacimiento != null
+          ? pRequestPolizaModel.fechaNacimiento.toString()
+          : "",
+    });
     final response = await http
         .post(
           Uri.parse(url),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(<String, String>{
-            'nroDocumento': pRequestPolizaModel.nroDocumento != null
-                ? pRequestPolizaModel.nroDocumento.toString()
-                : "",
-            'extension': pRequestPolizaModel.ciudadExpedido != null
-                ? pRequestPolizaModel.ciudadExpedido.toString()
-                : "",
-            'complemento': pRequestPolizaModel.complemento != null
-                ? pRequestPolizaModel.complemento.toString()
-                : "",
-            'fechaNacimiento': pRequestPolizaModel.fechaNacimiento != null
-                ? pRequestPolizaModel.fechaNacimiento.toString()
-                : "",
-          }),
+          body:contenido,
         )
         .timeout(Duration(seconds: api.TIMEOUT_SECOND));
+    print("==== TRAMA PARA CONSULTA DE POLIZA ========");
+    print(contenido);
 
     if (response.statusCode == 200) {
 

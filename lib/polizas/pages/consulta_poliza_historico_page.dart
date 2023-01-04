@@ -160,7 +160,7 @@ class _ConsultaPolizaHistoricoPageState extends State<ConsultaPolizaHistoricoPag
                         onPressed: () async {
 
                           consultaPolizaProvider.txtNroDocumentoController.text = pHistorialBusquedaPolizaModel.nroDocumento.toString();
-                          consultaPolizaProvider.txtExtensionController.text = pHistorialBusquedaPolizaModel.extension.toString();
+                          consultaPolizaProvider.ciudadExpedidoId = pHistorialBusquedaPolizaModel.ciudadExpedidoId!;
                           consultaPolizaProvider.txtComplementoController.text = pHistorialBusquedaPolizaModel.complemento.toString();
                           consultaPolizaProvider.txtFechaNacimientoController.text = pHistorialBusquedaPolizaModel.fechaNacimiento.toString();
 

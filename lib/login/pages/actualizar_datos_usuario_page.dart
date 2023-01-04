@@ -68,6 +68,10 @@ class _ActualizarDatosUsuarioPageState extends State<ActualizarDatosUsuarioPage>
                   padding: EdgeInsets.all(10),
                   child: Column(
                     children: [
+                      _crearGenero(),
+                      SizedBox(
+                        height: 10,
+                      ),
                       TextFormField(
                         controller: datosUsuarioProvider.txtNombresController,
                         keyboardType: TextInputType.text,
@@ -334,6 +338,42 @@ class _ActualizarDatosUsuarioPageState extends State<ActualizarDatosUsuarioPage>
         ),
       ),
       bottomNavigationBar: CustomBottomNavigatorWidget(),
+    );
+  }
+  Widget _crearGenero(){
+    final dominioProvider = Provider.of<DominioProvider>(context);
+    final datosUsuarioProvider = Provider.of<DatosUsuarioProvider>(context);
+    return dominioProvider.lstGenero.isNotEmpty
+        ? DropdownButtonFormField(
+      value: datosUsuarioProvider.generoId,
+      style: Theme.of(context).textTheme.bodyText1,
+      decoration: InputDecoration(
+          labelStyle: Theme.of(context).textTheme.bodyText1,
+          labelText: 'Género',
+          border: OutlineInputBorder(),
+          errorBorder: OutlineInputBorder(
+              borderSide:
+              BorderSide(color: colores.pri_verde_claro, width: 2))),
+      items: dominioProvider.lstGenero.map((e) {
+        /// Ahora creamos "e" y contiene cada uno de los items de la lista.
+        return DropdownMenuItem(
+            child: Text(e.descripcion!), value: e.dominioId);
+      }).toList(),
+      onChanged: (int? valor) {
+        datosUsuarioProvider.generoId = valor!;
+      },
+    )
+        : TextFormField(
+      enabled: false,
+      keyboardType: TextInputType.text,
+      style: Theme.of(context).textTheme.bodyText1,
+      decoration: InputDecoration(
+          labelStyle: Theme.of(context).textTheme.bodyText1,
+          labelText: 'Cargando .....',
+          border: OutlineInputBorder(),
+          errorBorder: OutlineInputBorder(
+              borderSide:
+              BorderSide(color: colores.pri_verde_claro, width: 2))),
     );
   }
 }

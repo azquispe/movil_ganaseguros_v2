@@ -22,10 +22,8 @@ class _NuevoDatosUsuarioPageState extends State<NuevoDatosUsuarioPage> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      Provider.of<DatosUsuarioProvider>(context, listen: false)
-          .limpiarFormDatosPersonas();
-      Provider.of<DominioProvider>(context, listen: false)
-          .obtenerCiudadExpedido();
+      Provider.of<DatosUsuarioProvider>(context, listen: false).limpiarFormDatosPersonas();
+      Provider.of<DominioProvider>(context, listen: false).obtenerCiudadExpedido();
       Provider.of<DominioProvider>(context, listen: false).obtenerGenero();
     });
 
@@ -67,6 +65,10 @@ class _NuevoDatosUsuarioPageState extends State<NuevoDatosUsuarioPage> {
                   padding: EdgeInsets.all(10),
                   child: Column(
                     children: [
+                      _crearGenero(),
+                      SizedBox(
+                        height: 10,
+                      ),
                       _crearNombre(),
                       SizedBox(
                         height: 10,
@@ -104,6 +106,13 @@ class _NuevoDatosUsuarioPageState extends State<NuevoDatosUsuarioPage> {
                       SizedBox(
                         height: 10,
                       ),
+                      Text(
+                        textAlign: TextAlign.center,
+                        'Es recomendable que tu contraseña deba contener caracteres como Mayúsculas, Minúsculas, Números y 8 o mas caracteres',
+                        style:  Theme.of(context).textTheme.bodyText1,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       _crearPassword(),
                       SizedBox(height: 10,),
                       _crearPasswordRepetido(),
@@ -116,6 +125,43 @@ class _NuevoDatosUsuarioPageState extends State<NuevoDatosUsuarioPage> {
         ),
       ),
       bottomNavigationBar: CustomBottomNavigatorWidget(),
+    );
+  }
+
+  Widget _crearGenero(){
+    final dominioProvider = Provider.of<DominioProvider>(context);
+    final datosUsuarioProvider = Provider.of<DatosUsuarioProvider>(context);
+    return dominioProvider.lstGenero.isNotEmpty
+        ? DropdownButtonFormField(
+      value: datosUsuarioProvider.generoId,
+      style: Theme.of(context).textTheme.bodyText1,
+      decoration: InputDecoration(
+          labelStyle: Theme.of(context).textTheme.bodyText1,
+          labelText: 'Género',
+          border: OutlineInputBorder(),
+          errorBorder: OutlineInputBorder(
+              borderSide:
+              BorderSide(color: colores.pri_verde_claro, width: 2))),
+      items: dominioProvider.lstGenero.map((e) {
+        /// Ahora creamos "e" y contiene cada uno de los items de la lista.
+        return DropdownMenuItem(
+            child: Text(e.descripcion!), value: e.dominioId);
+      }).toList(),
+      onChanged: (int? valor) {
+        datosUsuarioProvider.generoId = valor!;
+      },
+    )
+        : TextFormField(
+      enabled: false,
+      keyboardType: TextInputType.text,
+      style: Theme.of(context).textTheme.bodyText1,
+      decoration: InputDecoration(
+          labelStyle: Theme.of(context).textTheme.bodyText1,
+          labelText: 'Cargando .....',
+          border: OutlineInputBorder(),
+          errorBorder: OutlineInputBorder(
+              borderSide:
+              BorderSide(color: colores.pri_verde_claro, width: 2))),
     );
   }
 
@@ -335,6 +381,7 @@ class _NuevoDatosUsuarioPageState extends State<NuevoDatosUsuarioPage> {
   Widget _crearPassword() {
     final datosUsuarioProvider = Provider.of<DatosUsuarioProvider>(context);
     return TextFormField(
+      obscureText: true,
       controller: datosUsuarioProvider.txtPasswordController,
       keyboardType: TextInputType.text,
       style: Theme.of(context).textTheme.bodyText1,
@@ -353,6 +400,7 @@ class _NuevoDatosUsuarioPageState extends State<NuevoDatosUsuarioPage> {
     return TextFormField(
       controller: datosUsuarioProvider.txtPasswordRepetidoController,
       keyboardType: TextInputType.text,
+      obscureText: true,
       style: Theme.of(context).textTheme.bodyText1,
       decoration: InputDecoration(
           labelStyle: Theme.of(context).textTheme.bodyText1,

@@ -32,8 +32,8 @@ class DBProvider {
     await db.execute('''
     CREATE TABLE HistorialBusquedaPoliza(
     historialBusquedaPolizaId INTEGER PRIMARY KEY AUTOINCREMENT, 
-    nroDocumento TEXT,  
-    extension TEXT, 
+    nroDocumento TEXT, 
+    ciudadExpedidoId  INTEGER,
     complemento TEXT, 
     nombreAsegurado TEXT, 
     nombreTomador TEXT, 

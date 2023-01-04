@@ -6,6 +6,7 @@ import 'package:movil_ganaseguros/login/services/datos_persona_service.dart';
 
 class DatosUsuarioProvider with ChangeNotifier{
   // para formulario
+  int _generoId = 1025; // defecto MASCULINO
   TextEditingController _txtNombresController = TextEditingController();
   TextEditingController _txtPaternoController = TextEditingController();
   TextEditingController _txtMaternoController = TextEditingController();
@@ -18,6 +19,12 @@ class DatosUsuarioProvider with ChangeNotifier{
   TextEditingController _txtPasswordController = TextEditingController();
   TextEditingController _txtPasswordRepetidoController = TextEditingController();
 
+
+  int get generoId => _generoId;
+
+  set generoId(int value) {
+    _generoId = value;
+  }
 
   TextEditingController get txtPasswordRepetidoController =>
       _txtPasswordRepetidoController;
@@ -116,7 +123,7 @@ class DatosUsuarioProvider with ChangeNotifier{
     DatosPersonaModel objPersonaSqlite  =  await DBProvider.instance.obtenerDatosPersona();
     DatosPersonaModel objUpdate = new DatosPersonaModel();
     objUpdate.personaId = objPersonaSqlite.personaId;
-    objUpdate.generoId = 1025; // aun esta quemado
+    objUpdate.generoId = _generoId;
     objUpdate.nombres = txtNombresController.text;
     objUpdate.apellidoPaterno = txtPaternoController.text;
     objUpdate.apellidoMaterno = txtMaternoController.text;
@@ -139,7 +146,7 @@ class DatosUsuarioProvider with ChangeNotifier{
     }
 
     DatosPersonaModel objInsert = new DatosPersonaModel();
-    objInsert.generoId = 1025; // aun esta quemado
+    objInsert.generoId =_generoId;
     objInsert.nombres = txtNombresController.text;
     objInsert.apellidoPaterno = txtPaternoController.text;
     objInsert.apellidoMaterno = txtMaternoController.text;

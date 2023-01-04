@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 class ConsultaPolizaProvider with ChangeNotifier {
 
   TextEditingController _txtNroDocumentoController = TextEditingController();
-  TextEditingController _txtCiudadExpedidoController = TextEditingController();
+  //TextEditingController _txtCiudadExpedidoController = TextEditingController();
+  int _ciudadExpedidoId = 1007; // defecto La Paz
   TextEditingController _txtComplementoController = TextEditingController();
   TextEditingController _txtFechaNacimientoController = TextEditingController();
   List<PolizaModel> _lstPolizaModel = [];
@@ -24,10 +25,11 @@ class ConsultaPolizaProvider with ChangeNotifier {
     _txtNroDocumentoController = value;
   }
 
-  TextEditingController get txtExtensionController => _txtCiudadExpedidoController;
 
-  set txtCiudadExpedidoController(TextEditingController value) {
-    _txtCiudadExpedidoController = value;
+  int get ciudadExpedidoId => _ciudadExpedidoId;
+
+  set ciudadExpedidoId(int value) {
+    _ciudadExpedidoId = value;
   }
 
   List<PolizaModel> get lstPolizaModel => _lstPolizaModel;
@@ -51,15 +53,16 @@ class ConsultaPolizaProvider with ChangeNotifier {
   }
 
 
-  ConsultaPolizasService _consultaPolizaService = new ConsultaPolizasService();
+
 
   // Creado por aquispe ............... 18/11/2022
   // Metodo que consulta poliza del servicio
   // registrar busqueda historica en caso no exista registrado
   Future<List<PolizaModel>> consultarPolizaInvitado() async {
+    ConsultaPolizasService _consultaPolizaService = new ConsultaPolizasService();
     RequestPolizaModel objInsert = RequestPolizaModel(
       nroDocumento: this._txtNroDocumentoController.text,
-      ciudadExpedido: this._txtCiudadExpedidoController.text,
+      ciudadExpedidoId: this._ciudadExpedidoId,
       complemento: this._txtComplementoController.text,
       fechaNacimiento: this._txtFechaNacimientoController.text
     );
@@ -70,7 +73,7 @@ class ConsultaPolizaProvider with ChangeNotifier {
     if(objHistorialBusquedaPolizaModel==null){
       HistorialBusquedaPolizaModel objInsert = HistorialBusquedaPolizaModel(
           nroDocumento: this._txtNroDocumentoController.text.trim(),
-          extension: this._txtCiudadExpedidoController.text.trim(),
+          ciudadExpedidoId: this.ciudadExpedidoId,
           complemento: this._txtComplementoController.text.trim(),
           nombreAsegurado:lstPolizaModel[0].nombreAsegurado, // OJO HAY Q REVISAR, DE MOMENTO ESTA AGARRANDO EL PRIMERO DE LA LISTA
           nombreTomador:lstPolizaModel[0].nombreTomador, // OJO HAY Q REVISAR, DE MOMENTO ESTA AGARRANDO EL PRIMERO DE LA LISTA
@@ -81,9 +84,10 @@ class ConsultaPolizaProvider with ChangeNotifier {
     return this.lstPolizaModel;
   }
   Future<List<PolizaModel>> consultarPoliza() async {
+    ConsultaPolizasService _consultaPolizaService = new ConsultaPolizasService();
     RequestPolizaModel objInsert = RequestPolizaModel(
         nroDocumento: this._txtNroDocumentoController.text,
-        ciudadExpedido: this._txtCiudadExpedidoController.text,
+        ciudadExpedidoId: this._ciudadExpedidoId,
         complemento: this._txtComplementoController.text,
         fechaNacimiento: this._txtFechaNacimientoController.text
     );
@@ -93,7 +97,7 @@ class ConsultaPolizaProvider with ChangeNotifier {
   }
   limpiarCamposForm (){
     this.txtNroDocumentoController.text="";
-    this.txtExtensionController.text = "";
+    //this.txtExtensionController.text = "";
     this.txtComplementoController.text="";
     this.txtFechaNacimientoController.text = "";
   }

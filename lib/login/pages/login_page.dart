@@ -93,8 +93,8 @@ class LoginPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: TextFormField(
+        obscureText: true,
         controller: loginProvider.txtPasswordController,
-        keyboardType: TextInputType.visiblePassword,
         style: Theme.of(context).textTheme.bodyText1,
         decoration: InputDecoration(
             labelStyle: Theme.of(context).textTheme.bodyText1,
