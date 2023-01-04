@@ -8,9 +8,6 @@ import 'dart:io';
 
 class OfertaService {
   Future<List<OfertaModel>> obtenerOfertas() async {
-
-
-
     const url = "${api.API_MOVIL_GANASEGURO}/app-web/v1/obtener-ofertas/1003";
 
     final response = await http.get(Uri.parse(url), headers: <String, String>{

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/avisos/pages/aviso_page.dart';
 import 'package:movil_ganaseguros/avisos/providers/aviso_provider.dart';
 import 'package:movil_ganaseguros/avisos/services/push_noitfications_service.dart';
+import 'package:movil_ganaseguros/facturas/pages/lista_facturas_page.dart';
+import 'package:movil_ganaseguros/facturas/providers/datos_factura_provider.dart';
 import 'package:movil_ganaseguros/informacion/providers/oferta_provider.dart';
 import 'package:movil_ganaseguros/login/pages/actualizar_datos_usuario_page.dart';
 import 'package:movil_ganaseguros/login/pages/cambiar_clave_page.dart';
@@ -44,6 +46,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => DatosUsuarioProvider()),
     ChangeNotifierProvider(create: (_) => DominioProvider()),
     ChangeNotifierProvider(create: (_) => CambiarClaveProvider()),
+    ChangeNotifierProvider(create: (_) => DatosFacturaProvider())
   ], child: MyApp()));
 }
 
@@ -101,8 +104,8 @@ class _MyAppState extends State<MyApp> {
           'login_page': (_) => LoginPage(),
           'actualizar_datos_usuario_page': (_) => ActualizarDatosUsuarioPage(),
           'nuevo_datos_usuario_page': (_) => NuevoDatosUsuarioPage(),
-          'cambiar_clave_page':(_) => CambiarClavePage()
-
+          'cambiar_clave_page':(_) => CambiarClavePage(),
+          'lista_facturas_page' :(_) => ListaFacturasPage()
         },
         home: AnimatedSplashScreen(
 

@@ -1,4 +1,6 @@
 import 'package:future_progress_dialog/future_progress_dialog.dart';
+import 'package:movil_ganaseguros/facturas/models/datos_factura_model.dart';
+import 'package:movil_ganaseguros/facturas/providers/datos_factura_provider.dart';
 import 'package:movil_ganaseguros/login/models/datos_persona_model.dart';
 import 'package:movil_ganaseguros/login/providers/login_provider.dart';
 import 'package:movil_ganaseguros/polizas/models/poliza_model.dart';
@@ -25,6 +27,12 @@ class CardInicioWidget extends StatelessWidget {
               color: colores.sec_negro_claro1,
               text: loginProvider.datosPersonaModel.personaId!=null?'Mis pólizas': 'Consultar Póliza',
               pageName: 'consulta_poliza_historico_page'),
+          loginProvider.datosPersonaModel.personaId!=null? _SingleCard(
+                pathImg: "assets/icon/icon_facturas.jpg",
+                color: colores.sec_negro_claro1,
+                text: 'Mis facturas',
+                pageName: 'lista_facturas_page'):Container(),
+
           _SingleCard(
               pathImg: "assets/img/ganaSeguros_banner2.jpg",
               color: colores.sec_negro_claro1,
@@ -54,7 +62,8 @@ class _SingleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginProvider = Provider.of<LoginProvider>(context);
-    final consultaPolizaProvider = Provider.of<ConsultaPolizaProvider>(context);
+    final consultaPolizaProvider = Provider.of<ConsultaPolizaProvider>(context,listen: false);
+    final datosFacturaProvider = Provider.of<DatosFacturaProvider>(context,listen: false);
     DatosPersonaModel datosPersonaModel = loginProvider.datosPersonaModel;
     return GestureDetector (
 
@@ -86,9 +95,33 @@ class _SingleCard extends StatelessWidget {
             } else {
               Dialogos.dialogoInformativo(pTitulo: "Consulta de Póliza",pDescripcion: "No se ha encontrado Póliza \n Si desea consultar Póliza para otro asegurado ingrese como INVITADO  o creando una nueva CUENTA",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.info).show();
             }
-          }else{
+          }
+          else if((datosPersonaModel.personaId!=null && datosPersonaModel.personaId!>0) && this.pageName=="lista_facturas_page"){
+            List<DatosFacturaModel> ? lstDatosfacturaModel = await showDialog(
+              context: context,
+              builder: (context) =>
+                  FutureProgressDialog(datosFacturaProvider.consultarDatosFactura() ,
+                      message: Text(
+                        'Procesando...',
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              color: colores.sec_negro_claro2,
+                              letterSpacing: 0.3,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      )),
+            );
+            if (lstDatosfacturaModel!=null && lstDatosfacturaModel.length > 0) {
+              Navigator.of(context).pushNamed('lista_facturas_page');
+            } else {
+              Dialogos.dialogoInformativo(pTitulo: "Consulta de Facturas",pDescripcion: "No cuenta con facturas",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.info).show();
+            }
+          }
+          else{
             Navigator.of(context).pushNamed(this.pageName);
           }
+
+
 
         },
 
