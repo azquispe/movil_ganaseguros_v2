@@ -11,8 +11,7 @@ class DatosFacturaModel {
     this.nitEmisor,
     this.nombreComercial,
     this.numeroFactura,
-    this.monto,
-    this.urlFactura,
+    this.monto
   });
 
   String ? fechaFactura;
@@ -20,7 +19,6 @@ class DatosFacturaModel {
   String ? nombreComercial;
   String ? numeroFactura;
   String ? monto;
-  String ? urlFactura;
 
   factory DatosFacturaModel.fromJson(String str) => DatosFacturaModel.fromMap(json.decode(str));
 
@@ -31,8 +29,7 @@ class DatosFacturaModel {
     nitEmisor: json["nitEmisor"] == null ? null : json["nitEmisor"],
     nombreComercial: json["nombreComercial"] == null ? null : json["nombreComercial"],
     numeroFactura: json["numeroFactura"] == null ? null : json["numeroFactura"],
-    monto: json["monto"] == null ? null : json["monto"],
-    urlFactura: json["urlFactura"] == null ? null : json["urlFactura"],
+    monto: json["monto"] == null ? null : json["monto"]
   );
 
   Map<String, dynamic> toMap() => {
@@ -40,7 +37,6 @@ class DatosFacturaModel {
     "nitEmisor": nitEmisor == null ? null : nitEmisor,
     "nombreComercial": nombreComercial == null ? null : nombreComercial,
     "numeroFactura": numeroFactura == null ? null : numeroFactura,
-    "monto": monto == null ? null : monto,
-    "urlFactura": urlFactura == null ? null : urlFactura,
+    "monto": monto == null ? null : monto
   };
 }

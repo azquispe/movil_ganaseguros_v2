@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:movil_ganaseguros/facturas/models/datos_factura_model.dart';
 import 'package:movil_ganaseguros/facturas/providers/datos_factura_provider.dart';
+import 'package:movil_ganaseguros/facturas/services/datos_factura_service.dart';
 import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
 import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
+import 'package:movil_ganaseguros/utils/dialogos.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ListaFacturasPage extends StatelessWidget {
   @override
@@ -128,7 +132,7 @@ class ListaFacturasPage extends StatelessWidget {
 
   Widget descargarFactura(
       DatosFacturaModel pDatosFacturaModel, BuildContext context) {
-    if (pDatosFacturaModel.urlFactura!=null) {
+
       return Row(
         children: [
           Expanded(
@@ -144,13 +148,29 @@ class ListaFacturasPage extends StatelessWidget {
               color: colores.sec_verde_petroleo,
             ),
             onPressed: () async {
-              OpenFile.open(pDatosFacturaModel.urlFactura);
+
+              DatosFacturaService datosFacturaService = new DatosFacturaService();
+
+              String? path = await showDialog(
+                context: context,
+                builder: (context) =>
+                    FutureProgressDialog(datosFacturaService.descargarFactura(), message: Text('Descargando...')),
+              );
+
+              if(path!=null && path!.trim()!=""){
+                OpenFile.open(path);
+              }else{
+
+
+                Dialogos.dialogoInformativo(pTitulo: "Descarga de Factura",pDescripcion: "No se pudo descargar documento",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.error).show();
+
+
+              }
+
             },
           ),
         ],
       );
-    } else {
-      return Container();
-    }
+
   }
 }
