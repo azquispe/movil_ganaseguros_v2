@@ -38,9 +38,9 @@ void main() async {
 
 
 
-  WidgetsFlutterBinding.ensureInitialized();
+  /*WidgetsFlutterBinding.ensureInitialized();
   await initNotifications(); // para notificaion local
-  await PushNotificationService.initializeApp();
+  await PushNotificationService.initializeApp();*/
 
 
   runApp(MultiProvider(providers: [
