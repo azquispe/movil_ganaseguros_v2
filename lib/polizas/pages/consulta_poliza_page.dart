@@ -1,4 +1,3 @@
-
 import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:movil_ganaseguros/polizas/models/poliza_model.dart';
 import 'package:movil_ganaseguros/polizas/providers/consulta_poliza_provider.dart';
@@ -19,11 +18,11 @@ class ConsultaPolizaPage extends StatefulWidget {
 }
 
 class _ConsultaPolizaPageState extends State<ConsultaPolizaPage> {
-
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      Provider.of<DominioProvider>(context, listen: false).obtenerCiudadExpedido();
+      Provider.of<DominioProvider>(context, listen: false)
+          .obtenerCiudadExpedido();
     });
     // TODO: implement initState
     super.initState();
@@ -95,50 +94,41 @@ class _ConsultaPolizaPageState extends State<ConsultaPolizaPage> {
               children: [
                 Flexible(
                   flex: 4,
-                  child: /*TextFormField(
-                    controller: consultaPolizaProvider.txtExtensionController,
-                    maxLength: 100,
-                    keyboardType: TextInputType.text,
-                    style: Theme.of(context).textTheme.bodyText1,
-                    decoration: InputDecoration(
-                        labelStyle: Theme.of(context).textTheme.bodyText1,
-                        labelText: "Extensión",
-                        border: OutlineInputBorder(),
-                        errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: colores.pri_verde_claro, width: 2))),
-                  )*/dominioProvider.lstCiudadExpedido.isNotEmpty
+                  child: dominioProvider.lstCiudadExpedido.isNotEmpty
                       ? DropdownButtonFormField(
-                    value: consultaPolizaProvider.ciudadExpedidoId,
-                    style: Theme.of(context).textTheme.bodyText1,
-                    decoration: InputDecoration(
-                        labelStyle: Theme.of(context).textTheme.bodyText1,
-                        labelText: 'Ciudad Expedido',
-                        border: OutlineInputBorder(),
-                        errorBorder: OutlineInputBorder(
-                            borderSide:
-                            BorderSide(color: colores.pri_verde_claro, width: 2))),
-                    items: dominioProvider.lstCiudadExpedido.map((e) {
-                      /// Ahora creamos "e" y contiene cada uno de los items de la lista.
-                      return DropdownMenuItem(
-                          child: Text(e.descripcion!), value: e.dominioId);
-                    }).toList(),
-                    onChanged: (int? valor) {
-                      consultaPolizaProvider.ciudadExpedidoId = valor!;
-                    },
-                  )
+                          value: consultaPolizaProvider.ciudadExpedidoId,
+                          style: Theme.of(context).textTheme.bodyText1,
+                          decoration: InputDecoration(
+                              labelStyle: Theme.of(context).textTheme.bodyText1,
+                              labelText: 'Ciudad Expedido',
+                              border: OutlineInputBorder(),
+                              errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: colores.pri_verde_claro,
+                                      width: 2))),
+                          items: dominioProvider.lstCiudadExpedido.map((e) {
+                            /// Ahora creamos "e" y contiene cada uno de los items de la lista.
+                            return DropdownMenuItem(
+                                child: Text(e.descripcion!),
+                                value: e.dominioId);
+                          }).toList(),
+                          onChanged: (int? valor) {
+                            consultaPolizaProvider.ciudadExpedidoId = valor!;
+                          },
+                        )
                       : TextFormField(
-                    enabled: false,
-                    keyboardType: TextInputType.text,
-                    style: Theme.of(context).textTheme.bodyText1,
-                    decoration: InputDecoration(
-                        labelStyle: Theme.of(context).textTheme.bodyText1,
-                        labelText: 'Cargando .....',
-                        border: OutlineInputBorder(),
-                        errorBorder: OutlineInputBorder(
-                            borderSide:
-                            BorderSide(color: colores.pri_verde_claro, width: 2))),
-                  ),
+                          enabled: false,
+                          keyboardType: TextInputType.text,
+                          style: Theme.of(context).textTheme.bodyText1,
+                          decoration: InputDecoration(
+                              labelStyle: Theme.of(context).textTheme.bodyText1,
+                              labelText: 'Cargando .....',
+                              border: OutlineInputBorder(),
+                              errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: colores.pri_verde_claro,
+                                      width: 2))),
+                        ),
                 ),
                 const SizedBox(
                   width: 5,
@@ -213,31 +203,34 @@ class _ConsultaPolizaPageState extends State<ConsultaPolizaPage> {
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-
-                  List<PolizaModel> ? lstPolizaModel = await showDialog(
+                  List<PolizaModel>? lstPolizaModel = await showDialog(
                     context: context,
-                    builder: (context) =>
-                        FutureProgressDialog(consultaPolizaProvider.consultarPolizaInvitado() ,
-                            message: Text(
-                              'Procesando...',
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: colores.sec_negro_claro2,
-                                    letterSpacing: 0.3,
-                                    //fontSize: 22,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            )),
+                    builder: (context) => FutureProgressDialog(
+                        consultaPolizaProvider.consultarPolizaInvitado(),
+                        message: Text(
+                          'Procesando...',
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                color: colores.sec_negro_claro2,
+                                letterSpacing: 0.3,
+                                //fontSize: 22,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        )),
                   );
                   //List<PolizaModel>? lstPolizaModel = await consultarPoliza(context);
-                  if (lstPolizaModel!=null && lstPolizaModel.length > 0) {
+                  if (lstPolizaModel != null && lstPolizaModel.length > 0) {
                     Navigator.of(context)
                         .pushNamed('lista_poliza_detalle_page');
                   } else {
-
-
-                    Dialogos.dialogoInformativo(pTitulo: "Consulta de Póliza",pDescripcion: "No se ha encontrado Póliza",pContext: context,pBoton: "Aceptar",pTipoAlerta: AlertType.info).show();
-
+                    Dialogos.dialogoAceptarCancelar(
+                            pTitulo: "Consulta de Póliza",
+                            pDescripcion: "No se ha encontrado Póliza\n desea solicitar una?",
+                            pContext: context,
+                            pTipoAlerta: AlertType.info,
+                            pPathRedirect: "solicitar_seguro_page"
+                    )
+                        .show();
                   }
                   consultaPolizaProvider.limpiarCamposForm();
                 }

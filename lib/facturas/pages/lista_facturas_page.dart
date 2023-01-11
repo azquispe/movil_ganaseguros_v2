@@ -62,65 +62,79 @@ class ListaFacturasPage extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                'FECHA FACTURA:',
-                style: Theme.of(context).textTheme.bodyText2,
-                textAlign: TextAlign.left,
-              ),
-              Text(
-                pDatosFacturaModel.fechaFactura.toString(),
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.left,
-              ),
-              Text(
-                'NIT EMISOR:',
-                style: Theme.of(context).textTheme.bodyText2,
-                textAlign: TextAlign.left,
-              ),
-              Text(
-                pDatosFacturaModel.nitEmisor.toString(),
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.left,
+              Row(
+                children: [
+                  Text(
+                    'Fecha factura:',
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(width: 10,),
+                  Text(
+                    pDatosFacturaModel.fechaFactura.toString(),
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.left,
+                  ),
+                ],
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
-              Text(
-                'NOMBRE COMERCIAL:',
-                style: Theme.of(context).textTheme.bodyText2,
-                textAlign: TextAlign.left,
+              Row(
+                children: [
+                  Text(
+                    'NIT Emisor:',
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(width: 10,),
+                  Text(
+                    pDatosFacturaModel.nitEmisor.toString(),
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.left,
+                  ),
+                ],
               ),
-              Text(
-                pDatosFacturaModel.nombreComercial.toString(),
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.left,
-              ),
+
               SizedBox(
-                height: 10,
+                height: 5,
               ),
-              Text(
-                'NRO DE FACTURA:',
-                style: Theme.of(context).textTheme.bodyText2,
-                textAlign: TextAlign.left,
+              Row(
+                children: [
+                  Text(
+                    'Nombre comercial:',
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(width: 10,),
+                  Text(
+                    pDatosFacturaModel.nombreComercial.toString(),
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.left,
+                  ),
+                ],
               ),
-              Text(
-                pDatosFacturaModel.numeroFactura.toString(),
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.left,
-              ),
+
               SizedBox(
-                height: 10,
+                height: 5,
               ),
-              Text(
-                'MONTO:',
-                style: Theme.of(context).textTheme.bodyText2,
-                textAlign: TextAlign.left,
+              Row(
+                children: [
+                  Text(
+                    'Nro de factura:',
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(width: 10,),
+                  Text(
+                    pDatosFacturaModel.numeroFactura.toString(),
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.left,
+                  ),
+                ],
               ),
-              Text(
-                pDatosFacturaModel.monto.toString(),
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.left,
-              ),
+
+
               Divider(
                 color: colores.sec_verde_oscuro,
               ),
@@ -135,6 +149,16 @@ class ListaFacturasPage extends StatelessWidget {
 
       return Row(
         children: [
+          Column(
+            children: [
+
+              Text(
+                pDatosFacturaModel.monto.toString()+" Bs",
+                style: Theme.of(context).textTheme.headline5,
+                textAlign: TextAlign.left,
+              ),
+            ],
+          ),
           Expanded(
             child: SizedBox(),
           ),

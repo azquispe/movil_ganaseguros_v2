@@ -8,7 +8,7 @@ import 'package:movil_ganaseguros/utils/constantes.dart' as constantes;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/estilos.dart';
-import 'custom_bottom_navigator_widget.dart';
+import '../widgets/custom_bottom_navigator_widget.dart';
 
 class EncuentranosPage extends StatelessWidget {
   @override
@@ -89,7 +89,7 @@ class EncuentranosPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 20,),
             Text(
               "Sitio Web",
               style: Theme.of(context).textTheme.bodyText1,

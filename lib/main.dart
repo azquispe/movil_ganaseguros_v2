@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movil_ganaseguros/avisos/pages/aviso_page.dart';
 import 'package:movil_ganaseguros/avisos/providers/aviso_provider.dart';
-import 'package:movil_ganaseguros/avisos/services/push_noitfications_service.dart';
+import 'package:movil_ganaseguros/avisos/services/notification_local_service.dart';
+import 'package:movil_ganaseguros/avisos/services/push_notifications_service.dart';
 import 'package:movil_ganaseguros/facturas/pages/lista_facturas_page.dart';
 import 'package:movil_ganaseguros/facturas/providers/datos_factura_provider.dart';
 import 'package:movil_ganaseguros/informacion/providers/oferta_provider.dart';
@@ -21,7 +22,7 @@ import 'package:movil_ganaseguros/solicitar_seguro/pages/solicitar_seguro_page.d
 import 'package:movil_ganaseguros/solicitar_seguro/providers/solicita_seguro_provider.dart';
 import 'package:movil_ganaseguros/polizas/providers/consulta_poliza_historico_provider.dart';
 import 'package:movil_ganaseguros/polizas/providers/consulta_poliza_provider.dart';
-import 'package:movil_ganaseguros/informacion/widgets/encuentranos_page.dart';
+import 'package:movil_ganaseguros/informacion/pages/encuentranos_page.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movil_ganaseguros/utils/providers/dominio_provider.dart';
@@ -34,8 +35,14 @@ import 'package:page_transition/page_transition.dart';
 
 
 void main() async {
+
+
+
   /*WidgetsFlutterBinding.ensureInitialized();
+  await initNotifications(); // para notificaion local
   await PushNotificationService.initializeApp();*/
+
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ConsultaPolizaProvider()),
     ChangeNotifierProvider(create: (_) => ConsultaPolizaHistoricoProvider()),
@@ -93,8 +100,7 @@ class _MyAppState extends State<MyApp> {
         //initialRoute: 'inicio_page',
         routes: {
           'inicio_page': (_) => InicioPage(),
-          'consulta_poliza_historico_page': (_) =>
-              ConsultaPolizaHistoricoPage(),
+          'consulta_poliza_historico_page': (_) => ConsultaPolizaHistoricoPage(),
           'consulta_poliza_page': (_) => ConsultaPolizaPage(),
           'lista_poliza_detalle_page': (_) => ListaPolizaDetallePage(),
           'solicitar_seguro_page': (_) => SolicitarSeguroPage(),

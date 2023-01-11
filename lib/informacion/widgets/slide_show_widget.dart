@@ -4,6 +4,7 @@ import 'package:movil_ganaseguros/informacion/models/oferta_model.dart';
 import 'package:movil_ganaseguros/informacion/providers/oferta_provider.dart';
 import 'package:movil_ganaseguros/informacion/widgets/circular_progress_widget.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
+import 'package:movil_ganaseguros/utils/api.dart' as api;
 
 import 'package:movil_ganaseguros/utils/estilos.dart';
 import 'package:provider/provider.dart';
@@ -38,19 +39,41 @@ class _SlideShowWidgetState extends State<SlideShowWidget> {
         height: 300,
         children: ofertaProvider.lstOfertaModel
             .map((item) => Container(
+
                   child: Column(
                     children: [
-                      item.enlace!=null? FadeInImage(
-                        height: MediaQuery.of(context).size.width * 0.50,
-                        width: MediaQuery.of(context).size.width * 0.90,
-                        placeholder: AssetImage('assets/gif/loading.gif'),
-                        image: NetworkImage(item.enlace.toString()),
-                        fit: BoxFit.fill,
-                      ):Container(),
-                      item.titulo!=null?Text(item.titulo.toString(),
-                          style: Theme.of(context).textTheme.subtitle1):Container(),
-                      item.contenido!=null?Text(item.contenido.toString(),
-                          style: Theme.of(context).textTheme.bodyText1):Container()
+                      Row(
+                        children: [
+                          item.documentoAdjuntoId!=null? FadeInImage(
+                            height: MediaQuery.of(context).size.width * 0.50,
+                            width: MediaQuery.of(context).size.width * 0.60,
+                            placeholder: AssetImage('assets/gif/loading.gif'),
+                            image: NetworkImage("${api.API_MOVIL_GANASEGURO}/app-web/v1/descargar-archivo/"+item.documentoAdjuntoId.toString()),
+                            fit: BoxFit.fill,
+                          ):Container(),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.35,
+                            child: Column(
+
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+
+                              item.subtitulo!=null?Text(item.subtitulo.toString(),
+                                  style: Theme.of(context).textTheme.subtitle1):Container(),
+
+                              item.contenido!=null?Text(item.contenido.toString(),
+                                  style: Theme.of(context).textTheme.bodyText1):Container()
+                            ],),
+                          )
+
+                        ],
+                      ),
+                      Divider(
+                        color: colores.sec_negro_claro4,
+                      ),
+                      Text(item.titulo.toString(),
+                          style: Theme.of(context).textTheme.headlineMedium)
                     ],
                   ),
                 ))

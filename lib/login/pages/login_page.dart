@@ -129,7 +129,7 @@ class LoginPage extends StatelessWidget {
                   message: Text('Procesando...')),
             );
             if (res) {
-
+              loginProvider.limpiarUsuarioContrasena();
               Navigator.pushNamed(context, 'inicio_page');
 
             } else {
@@ -161,6 +161,7 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           onPressed: () async {
+            loginProvider.limpiarUsuarioContrasena();
             loginProvider.eliminarDatosPersonaTodos();
             Navigator.pushNamed(context, 'inicio_page');
           },

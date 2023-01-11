@@ -67,4 +67,52 @@ class Dialogos{
     );
 
   }
+  static Alert dialogoAceptarCancelar({required BuildContext pContext, required String pTitulo, required String pDescripcion,  required AlertType pTipoAlerta, String pPathRedirect=""}) {
+    var alertStyle = AlertStyle(
+        animationType: AnimationType.fromTop,
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        descStyle: Theme.of(pContext).textTheme.bodyText1!,
+        animationDuration: Duration(milliseconds: 400),
+        titleStyle: Theme.of(pContext).textTheme.subtitle1!,
+        //First to chars "55" represents transparency of color
+        overlayColor: Color(0x55000000),
+        alertElevation: 0,
+        alertAlignment: Alignment.center);
+    return  Alert(
+      context: pContext,
+      style: alertStyle,
+      type: pTipoAlerta,
+      title: pTitulo,
+      desc: pDescripcion,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Si",
+            style: TextStyle(color: colores.pri_blanco, fontSize: 20),
+          ),
+          onPressed: ()  {
+            Navigator.pop(pContext);
+            if(pPathRedirect!=""){
+              Navigator.pushNamed(pContext, pPathRedirect);
+            }
+          },
+          color: colores.sec_verde_claro,
+          radius: BorderRadius.circular(0.0),
+        ),
+        DialogButton(
+          child: Text(
+            "NO",
+            style: TextStyle(color: colores.pri_blanco, fontSize: 20),
+          ),
+          onPressed: ()  {
+            Navigator.pop(pContext);
+          },
+          color: colores.sec_negro_claro4,
+          radius: BorderRadius.circular(0.0),
+        ),
+      ],
+    );
+
+  }
 }

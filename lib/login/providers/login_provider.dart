@@ -58,5 +58,9 @@ class LoginProvider with ChangeNotifier {
     await DBProvider.instance.eliminarDatosPersonaTodos();
     this.datosPersonaModel= new DatosPersonaModel();
   }
+  Future<void>limpiarUsuarioContrasena () async{
+    _txtUsuarioController.text = "";
+    _txtPasswordController.text = "";
+  }
 
 }

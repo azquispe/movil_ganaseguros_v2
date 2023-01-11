@@ -7,6 +7,7 @@ import 'package:movil_ganaseguros/informacion/widgets/circular_progress_widget.d
 import 'package:movil_ganaseguros/informacion/widgets/custom_bottom_navigator_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:movil_ganaseguros/utils/colores.dart' as colores;
+import 'package:movil_ganaseguros/utils/api.dart' as api;
 
 class AvisoPage extends StatefulWidget {
   @override
@@ -107,7 +108,7 @@ class _AvisoPageState extends State<AvisoPage> {
   }
 
   Widget _imagenAviso(AvisoModel pAvisoModel,BuildContext context) {
-    if (pAvisoModel.enlace != null && pAvisoModel.enlace!.trim() != "") {
+    if (pAvisoModel.documentoAdjuntoId != null && pAvisoModel.documentoAdjuntoId! > 0) {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 10),
         child: ClipRRect(
@@ -118,7 +119,7 @@ class _AvisoPageState extends State<AvisoPage> {
             child: FadeInImage(
 
               placeholder: AssetImage('assets/gif/loading.gif'),
-              image: NetworkImage(pAvisoModel.enlace!.trim()),
+              image: NetworkImage("${api.API_MOVIL_GANASEGURO}/app-web/v1/descargar-archivo/"+pAvisoModel.documentoAdjuntoId.toString()),
             ),
           ),
         ),

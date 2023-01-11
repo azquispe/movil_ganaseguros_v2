@@ -9,16 +9,20 @@ class OfertaModel {
   OfertaModel({
     this.ofertaSliderId,
     this.titulo,
+    this.subtitulo,
     this.contenido,
-    this.enlace
+    this.aplicacionId,
+    this.documentoAdjuntoId
   });
 
 
 
   int ? ofertaSliderId;
   String? titulo;
+  String? subtitulo;
   String? contenido;
-  String? enlace;
+  int? aplicacionId;
+  int? documentoAdjuntoId;
 
   factory OfertaModel.fromJson(String str) => OfertaModel.fromMap(json.decode(str));
 
@@ -27,14 +31,16 @@ class OfertaModel {
   factory OfertaModel.fromMap(Map<String, dynamic> json) => OfertaModel(
       ofertaSliderId: json["ofertaSliderId"] == null ? null : json["ofertaSliderId"],
     titulo: json["titulo"] == null ? null : json["titulo"],
+      subtitulo: json["subtitulo"] == null ? null : json["subtitulo"],
     contenido: json["contenido"] == null ? null : json["contenido"],
-    enlace: json["enlace"] == null ? null : json["enlace"]
+      documentoAdjuntoId: json["documentoAdjuntoId"] == null ? null : json["documentoAdjuntoId"]
   );
 
   Map<String, dynamic> toMap() => {
     "ofertaSliderId": ofertaSliderId == null ? null : ofertaSliderId,
     "titulo": titulo == null ? null : titulo,
+    "subtitulo": subtitulo == null ? null : subtitulo,
     "contenido": contenido == null ? null : contenido,
-    "enlace": enlace == null ? null : enlace
+    "documentoAdjuntoId": documentoAdjuntoId == null ? null : documentoAdjuntoId
   };
 }
